@@ -20,6 +20,11 @@ func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 		Name:   r.FormValue("name"),
 	}
 
+	if generalNote.Name == "" {
+		http.Error(w, "Name must be populated", http.StatusBadRequest)
+		return
+	}
+
 	data, err := db_interactions.AddGeneral(generalNote)
 	if err != nil {
 		http.Error(w, "Unable to add general note", http.StatusInternalServerError)

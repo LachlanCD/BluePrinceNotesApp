@@ -15,7 +15,7 @@ func GetRoomById(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {
-		http.Error(w, "Id must be a number", http.StatusInternalServerError)
+		http.Error(w, "Id must be a number", http.StatusBadRequest)
 		return
 	}
 
@@ -27,7 +27,7 @@ func GetRoomById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(data)
 }
 
