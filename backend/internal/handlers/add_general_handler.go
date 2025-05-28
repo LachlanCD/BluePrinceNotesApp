@@ -12,7 +12,7 @@ import (
 func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got /AddGeneral request\n")
 	if err := r.ParseForm(); err != nil {
-		http.Error(w, "Unabbble to parse form", http.StatusInternalServerError)
+		http.Error(w, "Unabbble to parse form", http.StatusBadRequest)
 		return
 	}
 

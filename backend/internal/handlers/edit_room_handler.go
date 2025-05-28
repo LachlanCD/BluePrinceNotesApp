@@ -16,7 +16,7 @@ func EditRoom(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {
-		http.Error(w, "Id must be a number", http.StatusInternalServerError)
+		http.Error(w, "Id must be a number", http.StatusBadRequest)
 		return
 	}
 
@@ -34,7 +34,7 @@ func EditRoom(w http.ResponseWriter, r *http.Request) {
 
 	err = db_interactions.UpdateRoom(room)
 	if err != nil {
-		http.Error(w, "Unable to add room", http.StatusInternalServerError)
+		http.Error(w, "Unable to edit room", http.StatusInternalServerError)
 		return
 	}
 

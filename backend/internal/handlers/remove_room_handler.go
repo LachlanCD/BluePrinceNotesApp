@@ -14,7 +14,7 @@ func RemoveRoomById(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {
-		http.Error(w, "Id must be a number", http.StatusInternalServerError)
+		http.Error(w, "Id must be a number", http.StatusBadRequest)
 		return
 	}
 
@@ -24,7 +24,7 @@ func RemoveRoomById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusNoContent)
 }
 
 

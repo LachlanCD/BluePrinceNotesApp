@@ -16,7 +16,7 @@ func EditGeneral(w http.ResponseWriter, r *http.Request) {
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {
-		http.Error(w, "Id must be a number", http.StatusInternalServerError)
+		http.Error(w, "Id must be a number", http.StatusBadRequest)
 		return
 	}
 
@@ -33,7 +33,7 @@ func EditGeneral(w http.ResponseWriter, r *http.Request) {
 
 	err = db_interactions.UpdateGeneral(generalNote)
 	if err != nil {
-		http.Error(w, "Unable to add room", http.StatusInternalServerError)
+		http.Error(w, "Unable to edit general note", http.StatusInternalServerError)
 		return
 	}
 
