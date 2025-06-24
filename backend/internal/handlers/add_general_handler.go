@@ -17,7 +17,7 @@ func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 	}
 
 	generalNote := models.General{
-		Name:   r.FormValue("name"),
+		Name: r.FormValue("name"),
 	}
 
 	if generalNote.Name == "" {
@@ -35,6 +35,3 @@ func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(data)
 }
-
-
-

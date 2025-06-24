@@ -9,7 +9,7 @@ import (
 
 var db *sql.DB
 
-func openDB(dbPath string) (error) {
+func openDB(dbPath string) error {
 	var err error
 	db, err = sql.Open("sqlite3", dbPath)
 	if err != nil {
@@ -111,7 +111,7 @@ func readGeneralById(id int) (*models.General, error) {
 	return generalNote, nil
 }
 
-func getLastId(result sql.Result, err error) (int, error){
+func getLastId(result sql.Result, err error) (int, error) {
 	if err != nil {
 		return 0, err
 	}
@@ -134,25 +134,25 @@ func addGeneral(general models.General) (int, error) {
 	return getLastId(result, err)
 }
 
-func updateRoom(room models.Room) (error) {
+func updateRoom(room models.Room) error {
 	query := "UPDATE rooms SET name=?, colour=?, notes=? WHERE id=?"
 	_, err := db.Exec(query, room.Name, room.Colour, room.Notes, room.Id)
 	return err
 }
 
-func updateGeneralNote(generalNote models.General) (error) {
+func updateGeneralNote(generalNote models.General) error {
 	query := "UPDATE general SET name=?, notes=? WHERE id=?"
 	_, err := db.Exec(query, generalNote.Name, generalNote.Notes, generalNote.Id)
 	return err
 }
 
-func removeRoomEntry(id int) (error) {
+func removeRoomEntry(id int) error {
 	query := "DELETE FROM rooms WHERE id=?"
 	_, err := db.Exec(query, id)
 	return err
 }
 
-func removeGeneralEntry(id int) (error) {
+func removeGeneralEntry(id int) error {
 	query := "DELETE FROM general WHERE id=?"
 	_, err := db.Exec(query, id)
 	return err

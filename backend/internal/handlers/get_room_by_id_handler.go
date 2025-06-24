@@ -10,7 +10,7 @@ import (
 )
 
 func GetRoomById(w http.ResponseWriter, r *http.Request) {
-	urlId:= r.PathValue("id")
+	urlId := r.PathValue("id")
 	fmt.Printf("got /getroombyid/%s request\n", urlId)
 
 	id, err := strconv.Atoi(urlId)
@@ -30,5 +30,3 @@ func GetRoomById(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(data)
 }
-
-

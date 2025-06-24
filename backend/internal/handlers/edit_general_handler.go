@@ -26,9 +26,9 @@ func EditGeneral(w http.ResponseWriter, r *http.Request) {
 	}
 
 	generalNote := models.General{
-		Id:     id,
-		Name:   r.FormValue("name"),
-		Notes:  r.FormValue("notes"),
+		Id:    id,
+		Name:  r.FormValue("name"),
+		Notes: r.FormValue("notes"),
 	}
 
 	err = db_interactions.UpdateGeneral(generalNote)

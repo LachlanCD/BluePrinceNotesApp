@@ -40,31 +40,31 @@ func AddGeneral(generalNote models.General) (int, error) {
 	return addGeneral(generalNote)
 }
 
-func RemoveRoomNote(id int) (error) {
+func RemoveRoomNote(id int) error {
 	return removeRoomEntry(id)
 }
 
-func RemoveGeneralNote(id int) (error) {
+func RemoveGeneralNote(id int) error {
 	return removeGeneralEntry(id)
 }
 
-func UpdateRoom(room models.Room) (error) {
+func UpdateRoom(room models.Room) error {
 	oldRoom, err := readRoomById(room.Id)
 	if err != nil {
 		return err
 	}
-	if oldRoom == &room{
+	if oldRoom == &room {
 		return errors.New("Room must be updated")
 	}
 	return updateRoom(room)
 }
 
-func UpdateGeneral(generalNote models.General) (error) {
+func UpdateGeneral(generalNote models.General) error {
 	oldGen, err := readGeneralById(generalNote.Id)
 	if err != nil {
 		return err
 	}
-	if oldGen == &generalNote{
+	if oldGen == &generalNote {
 		return errors.New("General Note must be updated")
 	}
 	return updateGeneralNote(generalNote)

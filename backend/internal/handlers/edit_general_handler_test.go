@@ -32,7 +32,6 @@ func TestEditGeneral(t *testing.T) {
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
 
-
 	cleanDB()
 }
 
@@ -59,7 +58,6 @@ func TestEditGeneralInvalidId(t *testing.T) {
 	body := getBody(res, t)
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
-
 
 	cleanDB()
 }
@@ -88,7 +86,5 @@ func TestEditGeneralNotExist(t *testing.T) {
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
 
-
 	cleanDB()
 }
-

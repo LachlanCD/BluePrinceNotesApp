@@ -33,7 +33,6 @@ func TestEditRoom(t *testing.T) {
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
 
-
 	cleanDB()
 }
 
@@ -62,7 +61,6 @@ func TestEditRoomInvalidId(t *testing.T) {
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
 
-
 	cleanDB()
 }
 
@@ -90,7 +88,6 @@ func TestEditRoomNotExist(t *testing.T) {
 	body := getBody(res, t)
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
-
 
 	cleanDB()
 }

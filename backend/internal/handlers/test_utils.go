@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"database/sql"
-	"net/http"
 	"io"
+	"net/http"
 	"testing"
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/db_interactions"
@@ -32,34 +32,34 @@ func initTestingDB() {
 func seedDB() {
 	rooms := []models.Room{
 		{
-			Id: 1,
+			Id:     1,
 			Name:   "room1",
 			Colour: "col1",
-			Notes: "note1",
+			Notes:  "note1",
 		},
 		{
-			Id: 2,
+			Id:     2,
 			Name:   "room2",
 			Colour: "col2",
-			Notes: "note2",
+			Notes:  "note2",
 		},
 		{
-			Id: 3,
+			Id:     3,
 			Name:   "room3",
 			Colour: "col3",
-			Notes: "note3",
+			Notes:  "note3",
 		},
 	}
 
 	generals := []models.General{
 		{
-			Id: 1,
-			Name: "gen1",
+			Id:    1,
+			Name:  "gen1",
 			Notes: "note1",
 		},
 		{
-			Id: 2,
-			Name: "gen2",
+			Id:    2,
+			Name:  "gen2",
 			Notes: "note2",
 		},
 	}
@@ -82,7 +82,7 @@ func cleanDB() {
 	db.Exec(query)
 }
 
-func getBody(res *http.Response, t *testing.T) []byte{
+func getBody(res *http.Response, t *testing.T) []byte {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		t.Fatalf("Failed to read response body: %v", err)

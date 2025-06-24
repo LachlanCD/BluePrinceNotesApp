@@ -27,12 +27,10 @@ func TestAddGeneral(t *testing.T) {
 
 	res := w.Result()
 	checkStatus(expectedStatus, res.StatusCode, t)
-	
+
 	body := getBody(res, t)
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
-
-
 
 	cleanDB()
 }
@@ -42,7 +40,7 @@ func TestAddGeneralMissingName(t *testing.T) {
 
 	expectedReturn := "Name must be populated\n"
 	expectedStatus := http.StatusBadRequest
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/general/add", AddGeneralNote)
 
@@ -68,7 +66,7 @@ func TestAddGeneralMissingForm(t *testing.T) {
 
 	expectedReturn := "Name must be populated\n"
 	expectedStatus := http.StatusBadRequest
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/general/add", AddGeneralNote)
 	mux.HandleFunc("/general/{id}/remove", RemoveGeneralById)
@@ -85,7 +83,6 @@ func TestAddGeneralMissingForm(t *testing.T) {
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)
 
-
 	cleanDB()
 }
 
@@ -94,7 +91,7 @@ func TestAddGeneralAlreadyExist(t *testing.T) {
 
 	expectedReturn := "Unable to add general note\n"
 	expectedStatus := http.StatusInternalServerError
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/general/add", AddGeneralNote)
 	mux.HandleFunc("/general/{id}/remove", RemoveGeneralById)

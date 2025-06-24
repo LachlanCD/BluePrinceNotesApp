@@ -11,7 +11,7 @@ func TestGetRoomByIdBadRequest(t *testing.T) {
 
 	expectedReturn := "Id must be a number\n"
 	expectedStatus := http.StatusBadRequest
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/rooms/{id}", GetRoomById)
 
@@ -35,7 +35,7 @@ func TestGetRoomByIdNotExist(t *testing.T) {
 
 	expectedReturn := "Unable to retrieve room\n"
 	expectedStatus := http.StatusInternalServerError
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/rooms/{id}", GetRoomById)
 
@@ -59,11 +59,11 @@ func TestGetRoomById(t *testing.T) {
 
 	expectedReturn := "{\"Id\":1,\"Name\":\"room1\",\"Colour\":\"col1\",\"Notes\":\"note1\"}\n"
 	expectedStatus := http.StatusOK
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/rooms/{id}", GetRoomById)
 
-	url := "/rooms/1" 
+	url := "/rooms/1"
 	req := httptest.NewRequest(http.MethodGet, url, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

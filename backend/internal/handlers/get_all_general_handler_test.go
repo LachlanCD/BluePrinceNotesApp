@@ -19,7 +19,6 @@ func TestGetAllGeneral(t *testing.T) {
 	res := w.Result()
 	checkStatus(expectedStatus, res.StatusCode, t)
 
-
 	body := getBody(res, t)
 	actualReturn := string(body)
 	checkBody(expectedReturn, actualReturn, t)

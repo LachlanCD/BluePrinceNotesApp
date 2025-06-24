@@ -35,7 +35,7 @@ func TestGetGeneralByIdNotExist(t *testing.T) {
 
 	expectedReturn := "Unable to retrieve general note\n"
 	expectedStatus := http.StatusInternalServerError
-	
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/general/{id}", GetGeneralNoteById)
 
@@ -63,7 +63,7 @@ func TestGetGeneralById(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/general/{id}", GetGeneralNoteById)
 
-	url := "/general/1" 
+	url := "/general/1"
 	req := httptest.NewRequest(http.MethodGet, url, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
