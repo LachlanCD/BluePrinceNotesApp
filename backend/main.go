@@ -9,6 +9,8 @@ import (
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/db_interactions"
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/handlers"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -33,7 +35,8 @@ func main() {
 	mux.HandleFunc("/general/{id}/update", handlers.EditGeneral)
 	mux.HandleFunc("/general/{id}/remove", handlers.RemoveGeneralById)
 
-	err = http.ListenAndServe(":3000", mux)
+	handler := cors.Default().Handler(mux)
+	err = http.ListenAndServe(":3000", handler)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
 	} else if err != nil {
