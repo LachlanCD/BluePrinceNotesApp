@@ -12,7 +12,7 @@ export default function Navbar() {
           <a
             key={item.name}
             href={item.href}
-            className="text-gray-200 text-xl font-medium transition transform hover:scale-110"
+            className="text-gray-100 text-xl font-medium transform hover:scale-115"
           >
             {item.name}
           </a>
