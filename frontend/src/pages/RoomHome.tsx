@@ -1,7 +1,7 @@
 import { type Room } from "../types";
 import { GETAllRooms } from "../data/Rooms";
 import { useState, useEffect } from "react";
-import ColouredSection from "./ColouredSection";
+import ColouredSection from "../components/ColouredSection";
 
 export default function RoomHomePage() {
   const [rooms, setRooms] = useState<Room[] | null>(null);

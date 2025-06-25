@@ -1,6 +1,6 @@
 import './App.css'
 import Navbar from './components/Navbar'
-import RoomHomePage from './components/RoomHome'
+import RoomHomePage from './pages/RoomHome'
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
