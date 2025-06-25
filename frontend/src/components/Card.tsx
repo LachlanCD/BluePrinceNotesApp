@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { GetHexCode } from "../data/Utils";
 import { type Room } from "../types";
 
@@ -13,16 +14,16 @@ export default function Card({ room }: CardProps) {
 };
 
 function roomCard({ Id, Name, Colour }: Room) {
-  const bg = GetHexCode(Colour);
+  const bc = GetHexCode(Colour);
   return (
     <div>
-      <a href={`/rooms/${Id}`}>
+      <Link to={`/rooms/${Id}`}>
         <div className="text-md text-center text-gray-300 font-bold shadow sm:rounded-lg border-2 max-w-50 h-22 place-content-center text-wrap transform hover:scale-115"
-          style={{ borderColor: bg }}
+          style={{ borderColor: bc }}
         >
           <h3 className="p-3">{Name}</h3>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }
@@ -30,11 +31,11 @@ function roomCard({ Id, Name, Colour }: Room) {
 function generalCard({ Id, Name }: Room) {
   return (
     <div>
-      <a href={`/general/${Id}`}>
+      <Link to={`/general/${Id}`}>
         <div className="text-lg text-center bg-white font-bold shadow overflow-hidden sm:rounded-lg mb-10 transform hover:scale-115">
           <h1 className="py-2">{Name}</h1>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }
