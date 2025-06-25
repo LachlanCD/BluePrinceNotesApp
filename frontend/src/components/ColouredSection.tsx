@@ -1,0 +1,26 @@
+import { type Room } from "../types";
+import Card from "./Card";
+import { GetHexCode } from "../data/Utils";
+
+export type SecitonProps = {
+  colour: string;
+  rooms: Room[];
+}
+
+export default function ColouredSection({ colour, rooms }: SecitonProps) {
+  const bgColour = GetHexCode(colour)
+  return (
+    <div className="pt-2">
+      <hr className="my-6 border-2" style={{ borderColor: bgColour }} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {rooms.map((room, id) => (
+          <div className="card" key={id}>
+            <Card room={room} />
+          </div>
+        )
+        )}
+      </div>
+    </div>
+  )
+
+}
