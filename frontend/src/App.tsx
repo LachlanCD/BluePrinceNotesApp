@@ -1,6 +1,7 @@
 import './App.css'
 import Navbar from './components/Navbar'
 import RoomHomePage from './components/RoomHome'
+import { Routes, Route } from 'react-router-dom'
 
 function App() {
 
@@ -8,7 +9,9 @@ function App() {
     <>
       <body className="pt-20">
         <Navbar />
-        <RoomHomePage />
+        <Routes>
+          <Route path='/' element={<RoomHomePage />} />
+        </Routes>
       </body>
     </>
   )
