@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import SelectInput from '../components/SelectInput';
+import { ADDNewRoom } from '../data/Rooms';
 
 export default function CreationForm() {
   const [name, setName] = useState('');
@@ -15,19 +16,21 @@ export default function CreationForm() {
     "Black",
   ]
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formData = {
-      name,
-      colour,
+      Name: name,
+      Colour: colour,
     };
+    try {
+      await ADDNewRoom(formData)
+      setName('');
+      setColour('');
+    } catch(err) {
+      console.error(err)
+    }
 
-    console.log('Form submitted:', formData);
-
-    // Clear the form
-    setName('');
-    setColour('');
   };
 
   return (

@@ -5,10 +5,24 @@ export async function FetchData(url: string) {
   return data
 }
 
-export async function FetchAndCache(url: string, location: string){
+export async function FetchAndCache(url: string, location: string) {
   const data = FetchData(url)
   localStorage.setItem(location, JSON.stringify(data));
   return data;
+}
+
+export async function AddNew(url: string, data: URLSearchParams) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: data.toString(),
+  })
+
+  if (!response.ok) throw new Error('Unable to add new item');
+  const rData = await response.json();
+  return rData;
 }
 
 export function GetHexCode(color: string): string | undefined {

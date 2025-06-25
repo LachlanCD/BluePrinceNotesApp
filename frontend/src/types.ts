@@ -5,6 +5,11 @@ export type Room = {
   Notes: string
 };
 
+export type NewRoom = {
+  Name: string
+  Colour: string
+};
+
 export type Card = {
   Id: number
   Name: string
