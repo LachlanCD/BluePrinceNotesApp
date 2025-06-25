@@ -17,10 +17,10 @@ function roomCard({ Id, Name, Colour }: Room) {
   return (
     <div>
       <a href={`/rooms/${Id}`}>
-        <div className="text-lg text-center text-gray-300 font-bold shadow sm:rounded-lg border-5 max-w-55 h-22 place-content-center text-wrap"
+        <div className="text-md text-center text-gray-300 font-bold shadow sm:rounded-lg border-2 max-w-50 h-22 place-content-center text-wrap"
           style={{ borderColor: bg }}
         >
-          <h3 className="p-2">{Name}</h3>
+          <h3 className="p-3">{Name}</h3>
         </div>
       </a>
     </div>

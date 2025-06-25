@@ -10,8 +10,8 @@ export type SecitonProps = {
 export default function ColouredSection({ colour, rooms }: SecitonProps) {
   const bgColour = GetHexCode(colour)
   return (
-    <div className="pt-2">
-      <hr className="my-6 border-2" style={{ borderColor: bgColour }} />
+    <div className="mt-5">
+      <hr style={{ borderColor: bgColour }} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {rooms.map((room, id) => (
           <div className="card" key={id}>
@@ -20,6 +20,7 @@ export default function ColouredSection({ colour, rooms }: SecitonProps) {
         )
         )}
       </div>
+      <hr style={{ borderColor: bgColour }} />
     </div>
   )
 
