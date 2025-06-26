@@ -30,7 +30,7 @@ export default function GeneralHomePage() {
   return (
     <div>
       <div className="mt-5">
-        <hr className="border-white"/>
+        <hr className="border-white" />
         <div className="mt-8 ml-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {notes?.map((note) => (
             <Card key={note.Id} {...note} />

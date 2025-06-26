@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { GetHexCode } from "./Utils";
 import { type Card } from "../types";
 
-export default function BaseCard({ Id, Name, Colour="white" }: Card) {
+export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
   const bc = GetHexCode(Colour);
   return (
     <div>
