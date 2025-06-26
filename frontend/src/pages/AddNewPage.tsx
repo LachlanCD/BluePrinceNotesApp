@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import SelectInput from '../components/SelectInput';
-import { ADDNewRoom } from '../data/Rooms';
+import { FormatNewRoom } from '../data/Rooms';
+import { FormatNewGeneral } from '../data/General';
 
 export default function CreationForm() {
   const [name, setName] = useState('');
   const [colour, setColour] = useState('');
+  const [noteType, setNoteType] = useState('');
 
   const colours = [
     "Blue",
@@ -16,27 +18,34 @@ export default function CreationForm() {
     "Black",
   ]
 
+  const noteTypes = [
+    "Room",
+    "General",
+  ]
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formData = {
-      Name: name,
-      Colour: colour,
-    };
     try {
-      await ADDNewRoom(formData)
-      setName('');
-      setColour('');
-    } catch(err) {
+      if (noteType === "Room") return await FormatNewRoom({name, colour, setName, setColour})
+      return await FormatNewGeneral({name, setName})
+    } catch (err) {
       console.error(err)
     }
-
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Create Item</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <SelectInput
+          label="noteType"
+          options={noteTypes}
+          value={noteType}
+          onChange={setNoteType}
+          placeholder="Select a note type"
+          required
+        />
         <div>
           <label className="block mb-1 font-medium">Name</label>
           <input
@@ -49,14 +58,16 @@ export default function CreationForm() {
           />
         </div>
 
-        <SelectInput 
-          label="Colour"
-          options={colours}
-          value={colour}
-          onChange={setColour}
-          placeholder="Select a colour"
-          required
-        />
+        {noteType === "Room" ? (
+          <SelectInput
+            label="Colour"
+            options={colours}
+            value={colour}
+            onChange={setColour}
+            placeholder="Select a colour"
+            required
+          />) : <div/>
+        }
 
         <button
           type="submit"

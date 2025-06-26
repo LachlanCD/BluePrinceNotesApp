@@ -25,3 +25,25 @@ export async function ADDNewRoom(newRoom: NewRoom) {
     return err
   }
 }
+
+export type FormatNewRoomProps = {
+  name: string;
+  colour: string;
+  setName: (value: string) => void;
+  setColour: (value: string) => void;
+}
+
+export async function FormatNewRoom({name, colour, setName, setColour}: FormatNewRoomProps){
+    const formData = {
+      Name: name,
+      Colour: colour,
+    };
+
+    try {
+      await ADDNewRoom(formData)
+      setName('');
+      setColour('');
+    } catch (err) {
+      throw err;
+    }
+}
