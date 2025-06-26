@@ -2,11 +2,14 @@ import { useState } from 'react';
 import SelectInput from '../components/SelectInput';
 import { FormatNewRoom } from '../data/Rooms';
 import { FormatNewGeneral } from '../data/General';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreationForm() {
   const [name, setName] = useState('');
   const [colour, setColour] = useState('');
   const [noteType, setNoteType] = useState('');
+
+  const navigate = useNavigate();
 
   const colours = [
     "Blue",
@@ -27,8 +30,8 @@ export default function CreationForm() {
     e.preventDefault();
 
     try {
-      if (noteType === "Room") return await FormatNewRoom({name, colour, setName, setColour})
-      return await FormatNewGeneral({name, setName})
+      if (noteType === "Room") return await FormatNewRoom({ name, colour, navigate })
+      return await FormatNewGeneral({ name, navigate })
     } catch (err) {
       console.error(err)
     }
@@ -66,7 +69,7 @@ export default function CreationForm() {
             onChange={setColour}
             placeholder="Select a colour"
             required
-          />) : <div/>
+          />) : <div />
         }
 
         <button

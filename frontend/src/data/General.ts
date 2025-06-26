@@ -28,18 +28,18 @@ export async function ADDNewGeneral(newGeneral: NewGeneral) {
 
 export type FormatNewGeneralProps = {
   name: string;
-  setName: (value: string) => void;
+  navigate: (value: string) => void;
 }
 
-export async function FormatNewGeneral({name, setName}: FormatNewGeneralProps){
-    const formData = {
-      Name: name,
-    };
+export async function FormatNewGeneral({ name, navigate }: FormatNewGeneralProps) {
+  const formData = {
+    Name: name,
+  };
 
-    try {
-      await ADDNewGeneral(formData)
-      setName('');
-    } catch (err) {
-      throw err;
-    }
+  try {
+    await ADDNewGeneral(formData)
+    navigate('/general')
+  } catch (err) {
+    throw err;
+  }
 }
