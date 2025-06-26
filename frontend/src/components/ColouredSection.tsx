@@ -1,10 +1,10 @@
-import { type Room } from "../types";
+import { type RoomCard } from "../types";
 import Card from "./Card";
-import { GetHexCode } from "../data/Utils";
+import { GetHexCode } from "./Utils";
 
 export type SecitonProps = {
   colour: string;
-  rooms: Room[];
+  rooms: RoomCard[];
 }
 
 export default function ColouredSection({ colour, rooms }: SecitonProps) {

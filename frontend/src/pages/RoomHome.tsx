@@ -1,10 +1,10 @@
-import { type Room } from "../types";
+import { type RoomCard } from "../types";
 import { GETAllRooms } from "../data/Rooms";
 import { useState, useEffect } from "react";
 import ColouredSection from "../components/ColouredSection";
 
 export default function RoomHomePage() {
-  const [rooms, setRooms] = useState<Room[] | null>(null);
+  const [rooms, setRooms] = useState<RoomCard[] | null>(null);
   const [error, setError] = useState<String | null>(null);
 
 
@@ -24,7 +24,7 @@ export default function RoomHomePage() {
   }, []);
 
 
-  const groupedRooms = rooms?.reduce<Record<string, Room[]>>((acc, obj) => {
+  const groupedRooms = rooms?.reduce<Record<string, RoomCard[]>>((acc, obj) => {
     if (!acc[obj.Colour]) {
       acc[obj.Colour] = [];
     }

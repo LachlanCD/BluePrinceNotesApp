@@ -1,18 +1,27 @@
-export type Room = {
+export interface NewRoom extends NewGeneral {
+  Colour: string
+};
+
+export interface NewGeneral {
+  Name: string
+};
+
+export interface GeneralCard {
   Id: number
   Name: string
+};
+
+export interface RoomCard extends GeneralCard {
   Colour: string
+};
+
+export interface GeneralNote {
+  Id: number
+  Name: string
   Notes: string
 };
 
-export type NewRoom = {
-  Name: string
+export interface RoomNote extends GeneralNote {
   Colour: string
 };
-
-export type Card = {
-  Id: number
-  Name: string
-  Colour: string
-}
 
