@@ -1,19 +1,8 @@
 import { Link } from "react-router-dom";
 import { GetHexCode } from "./Utils";
-import { type RoomCard } from "../types";
+import { type Card } from "../types";
 
-export type CardProps = {
-  room: RoomCard;
-}
-
-export default function Card({ room }: CardProps) {
-  if (room.Colour != null) {
-    return roomCard(room)
-  }
-  return generalCard(room)
-};
-
-function roomCard({ Id, Name, Colour }: RoomCard) {
+export default function BaseCard({ Id, Name, Colour="white" }: Card) {
   const bc = GetHexCode(Colour);
   return (
     <div>
@@ -26,16 +15,4 @@ function roomCard({ Id, Name, Colour }: RoomCard) {
       </Link>
     </div>
   );
-}
-
-function generalCard({ Id, Name }: RoomCard) {
-  return (
-    <div>
-      <Link to={`/general/${Id}`}>
-        <div className="text-lg text-center bg-white font-bold shadow overflow-hidden sm:rounded-lg mb-10 transform hover:scale-115">
-          <h1 className="py-2">{Name}</h1>
-        </div>
-      </Link>
-    </div>
-  );
-}
+};

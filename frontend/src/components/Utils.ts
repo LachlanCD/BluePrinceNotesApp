@@ -1,5 +1,6 @@
-export function GetHexCode(color: string): string | undefined {
-  const colorMap: { [key: string]: string } = {
+export function GetHexCode(colour: string): string | undefined {
+  const colourMap: { [key: string]: string } = {
+    white: "#FFFFFF",
     blue: "#0000FF",
     purple: "#800080",
     orange: "#FFA500",
@@ -9,5 +10,5 @@ export function GetHexCode(color: string): string | undefined {
     black: "#000000",
   };
 
-  return colorMap[color.toLowerCase()];
+  return colourMap[colour.toLowerCase()];
 }

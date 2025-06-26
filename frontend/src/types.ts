@@ -15,6 +15,10 @@ export interface RoomCard extends GeneralCard {
   Colour: string
 };
 
+export interface Card extends GeneralCard {
+  Colour?: string
+};
+
 export interface GeneralNote {
   Id: number
   Name: string
