@@ -19,6 +19,6 @@ export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
 };
 
 function getLink(colour: string, id: number) {
-  if (colour === "white") return `/general/${id}`
-  return`/room/${id}` 
+  if (colour === "white") return `/generals/${id}`
+  return`/rooms/${id}` 
 }

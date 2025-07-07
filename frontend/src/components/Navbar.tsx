@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Navbar() {
   const menuItems = [
     { name: "Rooms", href: "/" },
-    { name: "General", href: "/general" },
+    { name: "General", href: "/generals" },
     { name: "Add New", href: "/add-new" },
   ];
 
