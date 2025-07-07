@@ -12,7 +12,7 @@ import (
 
 func EditRoom(w http.ResponseWriter, r *http.Request) {
 	urlId := r.PathValue("id")
-	fmt.Printf("got /getroombyid/%s request\n", urlId)
+	fmt.Printf("got /rooms/%s/update request\n", urlId)
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {
