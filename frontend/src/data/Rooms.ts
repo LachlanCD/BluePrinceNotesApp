@@ -1,12 +1,22 @@
-import type { NewRoom } from "../types";
-import { AddNew, FetchAndCache } from "./Utils";
+import type { NewRoom, RoomNote } from "../types";
+import { AddNew, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllRooms() {
   try {
     const route = "/rooms"
     const url = import.meta.env.VITE_BASE_URL + route
     const location = import.meta.env.VITE_ALL_ROOMS_LOCATION
-    return FetchAndCache(url.toString(), location)
+    return FetchAndCache(url, location)
+  } catch (err) {
+    return err
+  }
+}
+
+export async function GETRoomDetails(id: string|undefined) {
+  try {
+    const route = "/rooms/" + id
+    const url = import.meta.env.VITE_BASE_URL + route
+    return FetchData(url)
   } catch (err) {
     return err
   }
@@ -41,6 +51,21 @@ export async function FormatNewRoom({ name, colour, navigate }: FormatNewRoomPro
   try {
     await ADDNewRoom(formData)
     navigate('/')
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function UpdateRoom(newRoom: RoomNote) {
+  try {
+    const formData = new URLSearchParams();
+    formData.append('name', newRoom.Name);
+    formData.append('colour', newRoom.Colour);
+    formData.append('notes', newRoom.Notes);
+
+    const route = `/rooms/${newRoom.Id}/update`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return AddNew(url, formData)
   } catch (err) {
     throw err;
   }

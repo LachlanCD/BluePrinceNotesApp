@@ -1,5 +1,5 @@
-import type { NewGeneral } from "../types";
-import { AddNew, FetchAndCache } from "./Utils";
+import type { GeneralNote, NewGeneral } from "../types";
+import { AddNew, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllGenerals() {
   try {
@@ -12,6 +12,15 @@ export async function GETAllGenerals() {
   }
 }
 
+export async function GETGeneralDetails(id: string|undefined) {
+  try {
+    const route = "/general/" + id
+    const url = import.meta.env.VITE_BASE_URL + route
+    return FetchData(url)
+  } catch (err) {
+    return err
+  }
+}
 
 export async function ADDNewGeneral(newGeneral: NewGeneral) {
   try {
@@ -39,6 +48,20 @@ export async function FormatNewGeneral({ name, navigate }: FormatNewGeneralProps
   try {
     await ADDNewGeneral(formData)
     navigate('/general')
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function UpdateGeneral(newGeneral: GeneralNote) {
+  try {
+    const formData = new URLSearchParams();
+    formData.append('name', newGeneral.Name);
+    formData.append('notes', newGeneral.Notes);
+
+    const route = `/general/${newGeneral.Id}/update`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return AddNew(url, formData)
   } catch (err) {
     throw err;
   }
