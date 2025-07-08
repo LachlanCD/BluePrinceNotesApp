@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,8 +9,9 @@ import (
 )
 
 func GetGeneralNoteById(w http.ResponseWriter, r *http.Request) {
+	printRequest(r)
+
 	urlId := r.PathValue("id")
-	fmt.Printf("got /getroombyid/%s request\n", urlId)
 
 	id, err := strconv.Atoi(urlId)
 	if err != nil {

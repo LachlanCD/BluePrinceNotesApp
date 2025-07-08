@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/db_interactions"
@@ -10,7 +9,8 @@ import (
 )
 
 func AddRoom(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got /AddRoom request\n")
+	printRequest(r)
+
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Unabbble to parse form", http.StatusBadRequest)
 		return

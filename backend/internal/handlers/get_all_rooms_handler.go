@@ -2,14 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/db_interactions"
 )
 
 func GetAllRooms(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got /rooms request\n")
+	printRequest(r)
 
 	data, err := db_interactions.ReadAllRooms()
 	if err != nil {
