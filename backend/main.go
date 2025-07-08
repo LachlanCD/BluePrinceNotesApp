@@ -23,6 +23,13 @@ func main() {
 	}
 	fmt.Println("db created")
 
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:5173"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	})
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/rooms", handlers.GetAllRooms)
 	mux.HandleFunc("/rooms/{id}", handlers.GetRoomById)
@@ -35,7 +42,7 @@ func main() {
 	mux.HandleFunc("/general/{id}/update", handlers.EditGeneral)
 	mux.HandleFunc("/general/{id}/remove", handlers.RemoveGeneralById)
 
-	handler := cors.Default().Handler(mux)
+	handler := c.Handler(mux)
 	err = http.ListenAndServe(":3000", handler)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
