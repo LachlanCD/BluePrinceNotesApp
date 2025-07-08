@@ -15,7 +15,7 @@ export default function RoomHomePage() {
         const rooms = await GETAllRooms();
         setRooms(rooms);
       } catch (err) {
-        console.error(error)
+        console.error(err)
         setError("Failed to retrieve rooms.");
 
       }

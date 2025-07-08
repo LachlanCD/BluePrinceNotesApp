@@ -19,7 +19,7 @@ export default function RoomNotePage() {
         setRoom(roomData);
         if (roomData.Notes) setMarkdown(roomData.Notes)
       } catch (err) {
-        console.error(error)
+        console.error(err)
         setError("Failed to retrieve rooms.");
 
       }
