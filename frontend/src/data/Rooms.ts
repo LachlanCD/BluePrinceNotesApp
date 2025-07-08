@@ -1,5 +1,5 @@
 import type { NewRoom, RoomNote } from "../types";
-import { AddNew, FetchAndCache, FetchData } from "./Utils";
+import { AddNew, DeleteItem, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllRooms() {
   try {
@@ -68,5 +68,15 @@ export async function UpdateRoom(newRoom: RoomNote) {
     return AddNew(url, formData)
   } catch (err) {
     throw err;
+  }
+}
+
+export async function DeleteRoom(id: string|undefined) {
+  try {
+    const route = `/rooms/${id}/remove`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return DeleteItem(url)
+  } catch (err) {
+    return err
   }
 }

@@ -1,10 +1,12 @@
 import { type RoomNote } from "../types";
-import { GETRoomDetails, UpdateRoom } from "../data/Rooms";
+import { DeleteRoom, GETRoomDetails, UpdateRoom } from "../data/Rooms";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NoteEditor from "../components/NoteEditor";
+import DeleteButton from "../components/DeleteButton";
 
 export default function RoomNotePage() {
+  const navigate = useNavigate()
   const { id } = useParams()
   const [room, setRoom] = useState<RoomNote | null>(null);
   const [error, setError] = useState<String | null>(null);
@@ -21,13 +23,12 @@ export default function RoomNotePage() {
       } catch (err) {
         console.error(err)
         setError("Failed to retrieve rooms.");
-
       }
     }
     getRooms()
   }, []);
 
-  const handleSubmit = async () => {
+  const handleUpdate = async () => {
     if (!room?.Name || !room.Colour || !editing) return;
 
     const newRoom: RoomNote = {
@@ -38,6 +39,16 @@ export default function RoomNotePage() {
     };
 
     UpdateRoom(newRoom);
+  }
+
+  const handleDelete = async () => {
+    try {
+      await DeleteRoom(id)
+      navigate('/')
+    } catch (err) {
+      console.error(err)
+      setError("Failed to retrieve rooms.");
+    }
   }
 
   if (room === null && error === null) return <div>Loading...</div>;
@@ -51,9 +62,11 @@ export default function RoomNotePage() {
         editing={editing}
         setMarkdown={setMarkdown}
         markdown={markdown}
-        handleSubmit={handleSubmit}
+        handleSubmit={handleUpdate}
       />
-
+      <DeleteButton
+        handleSubmit={handleDelete}
+      />
     </div>
   )
 }

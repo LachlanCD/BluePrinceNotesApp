@@ -24,3 +24,11 @@ export async function AddNew(url: string, data: URLSearchParams) {
   const rData = await response.json();
   return rData;
 }
+
+export async function DeleteItem(url: string) {
+  const response = await fetch(url, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) throw new Error('Unable to remove item');
+}
