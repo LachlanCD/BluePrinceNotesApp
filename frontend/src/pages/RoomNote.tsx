@@ -15,8 +15,17 @@ export default function RoomNotePage() {
   const [markdown, setMarkdown] = useState<string>(`No notes yet`);
   const [name, setName] = useState<string>(`Something Went Wrong`);
   const [editingName, setEditingName] = useState<boolean>(false);
+  const [colour, setColour] = useState<string>(`White`);
 
-
+  const colours = [
+    "Blue",
+    "Purple",
+    "Orange",
+    "Yellow",
+    "Green",
+    "Red",
+    "Black",
+  ]
 
   useEffect(() => {
     async function getRooms() {
@@ -26,6 +35,7 @@ export default function RoomNotePage() {
         setRoom(roomData);
         if (roomData.Name) setName(roomData.Name)
         if (roomData.Notes) setMarkdown(roomData.Notes)
+        if (roomData.Colour) setColour(roomData.Colour)
       } catch (err) {
         console.error(err)
         setError("Failed to retrieve rooms.");
@@ -36,15 +46,15 @@ export default function RoomNotePage() {
 
   const handleUpdate = async () => {
     try {
-    if (!room?.Name || !room.Colour) return;
+      if (!room?.Name || !room.Colour) return;
 
-    const newRoom: RoomCard = {
-      Id: room.Id,
-      Name: name,
-      Colour: room.Colour,
-    };
+      const newRoom: RoomCard = {
+        Id: room.Id,
+        Name: name,
+        Colour: colour,
+      };
 
-    UpdateRoom(newRoom);
+      UpdateRoom(newRoom);
     } catch (err) {
       console.error(err);
     }
@@ -65,7 +75,7 @@ export default function RoomNotePage() {
 
   return (
     <div>
-      <div 
+      <div
       >
         <NoteTitle
           editing={editingName}
@@ -73,6 +83,9 @@ export default function RoomNotePage() {
           name={name}
           setName={setName}
           handleSubmit={handleUpdate}
+          colour={colour}
+          setColour={setColour}
+          colours={colours}
         />
         <NoteEditor
           setEditing={setEditingNote}
