@@ -1,5 +1,5 @@
-import type { GeneralNote, NewGeneral } from "../types";
-import { AddNew, FetchAndCache, FetchData } from "./Utils";
+import type { GeneralCard, NewGeneral, UpdateNoteProps } from "../types";
+import { AddNew, DeleteItem, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllGenerals() {
   try {
@@ -47,22 +47,44 @@ export async function FormatNewGeneral({ name, navigate }: FormatNewGeneralProps
 
   try {
     await ADDNewGeneral(formData)
-    navigate('/general')
+    navigate('/generals')
   } catch (err) {
     throw err;
   }
 }
 
-export async function UpdateGeneral(newGeneral: GeneralNote) {
+export async function UpdateGeneral(newGeneral: GeneralCard) {
   try {
     const formData = new URLSearchParams();
     formData.append('name', newGeneral.Name);
-    formData.append('notes', newGeneral.Notes);
 
     const route = `/general/${newGeneral.Id}/update`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
     throw err;
+  }
+}
+
+export async function UpdateGeneralNote({ id, note }: UpdateNoteProps) {
+  try {
+    const formData = new URLSearchParams();
+    formData.append('notes', note);
+
+    const route = `/general/${id}/update/note`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return AddNew(url, formData)
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function DeleteGeneral(id: string|undefined) {
+  try {
+    const route = `/general/${id}/remove`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return DeleteItem(url)
+  } catch (err) {
+    return err
   }
 }

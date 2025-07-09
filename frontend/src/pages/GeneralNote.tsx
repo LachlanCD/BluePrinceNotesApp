@@ -1,15 +1,20 @@
-import { type GeneralNote } from "../types";
+import { type GeneralCard, type GeneralNote } from "../types";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { DeleteGeneral, GETGeneralDetails, UpdateGeneral } from "../data/General";
 import NoteEditor from "../components/NoteEditor";
-import { GETGeneralDetails, UpdateGeneral } from "../data/General";
+import DeleteButton from "../components/DeleteButton";
+import NoteTitle from "../components/NoteTitle";
 
 export default function RoomNotePage() {
+  const navigate = useNavigate()
   const { id } = useParams()
   const [general, setGeneral] = useState<GeneralNote | null>(null);
   const [error, setError] = useState<String | null>(null);
-  const [editing, setEditing] = useState<boolean>(false);
+  const [editingNote, setEditingNote] = useState<boolean>(false);
   const [markdown, setMarkdown] = useState<string>(`No notes yet`);
+  const [name, setName] = useState<string>(`Something Went Wrong`);
+  const [editingName, setEditingName] = useState<boolean>(false);
 
   useEffect(() => {
     async function getRooms() {
@@ -17,26 +22,41 @@ export default function RoomNotePage() {
       try {
         const genData = await GETGeneralDetails(id);
         setGeneral(genData);
+        if (genData.Name) setName(genData.Name)
         if (genData.Notes) setMarkdown(genData.Notes)
       } catch (err) {
         console.error(error)
         setError("Failed to retrieve rooms.");
-
       }
     }
     getRooms()
   }, []);
 
-  const handleSubmit = async () => {
-    if (!general?.Name || !editing) return;
 
-    const newGeneral: GeneralNote = {
-      Id: general.Id,
-      Name: general.Name,
-      Notes: markdown,
-    };
+  const handleUpdate = async () => {
 
-    UpdateGeneral(newGeneral);
+    try {
+      if (!general?.Name) return;
+      const newGeneral: GeneralCard = {
+        Id: general.Id,
+        Name: name,
+      };
+
+      UpdateGeneral(newGeneral);
+    } catch (err) {
+      console.error(err)
+      setError("Failed to retrieve rooms.");
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      await DeleteGeneral(id)
+      navigate('/generals')
+    } catch (err) {
+      console.error(err)
+      setError("Failed to retrieve rooms.");
+    }
   }
 
   if (general === null && error === null) return <div>Loading...</div>;
@@ -44,13 +64,23 @@ export default function RoomNotePage() {
 
   return (
     <div>
-      <h1>{general?.Name}</h1>
+      <NoteTitle
+        editing={editingName}
+        setEditing={setEditingName}
+        name={name}
+        setName={setName}
+        handleSubmit={handleUpdate}
+      />
       <NoteEditor
-        setEditing={setEditing}
-        editing={editing}
-        setMarkdown={setMarkdown}
+        editing={editingNote}
+        setEditing={setEditingNote}
         markdown={markdown}
-        handleSubmit={handleSubmit}
+        setMarkdown={setMarkdown}
+        id={general?.Id}
+        handleSubmit={handleUpdate}
+      />
+      <DeleteButton
+        handleSubmit={handleDelete}
       />
 
     </div>

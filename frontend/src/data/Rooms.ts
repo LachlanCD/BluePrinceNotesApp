@@ -1,4 +1,4 @@
-import type { NewRoom, RoomNote } from "../types";
+import type { NewRoom, RoomCard, UpdateNoteProps } from "../types";
 import { AddNew, DeleteItem, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllRooms() {
@@ -12,7 +12,7 @@ export async function GETAllRooms() {
   }
 }
 
-export async function GETRoomDetails(id: string|undefined) {
+export async function GETRoomDetails(id: string | undefined) {
   try {
     const route = "/rooms/" + id
     const url = import.meta.env.VITE_BASE_URL + route
@@ -56,12 +56,11 @@ export async function FormatNewRoom({ name, colour, navigate }: FormatNewRoomPro
   }
 }
 
-export async function UpdateRoom(newRoom: RoomNote) {
+export async function UpdateRoom(newRoom: RoomCard) {
   try {
     const formData = new URLSearchParams();
     formData.append('name', newRoom.Name);
     formData.append('colour', newRoom.Colour);
-    formData.append('notes', newRoom.Notes);
 
     const route = `/rooms/${newRoom.Id}/update`
     const url = import.meta.env.VITE_BASE_URL + route
@@ -71,7 +70,21 @@ export async function UpdateRoom(newRoom: RoomNote) {
   }
 }
 
-export async function DeleteRoom(id: string|undefined) {
+
+export async function UpdateRoomNote({ id, note }: UpdateNoteProps) {
+  try {
+    const formData = new URLSearchParams();
+    formData.append('notes', note);
+
+    const route = `/rooms/${id}/update/note`
+    const url = import.meta.env.VITE_BASE_URL + route
+    return AddNew(url, formData)
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function DeleteRoom(id: string | undefined) {
   try {
     const route = `/rooms/${id}/remove`
     const url = import.meta.env.VITE_BASE_URL + route

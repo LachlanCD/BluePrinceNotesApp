@@ -29,3 +29,7 @@ export interface RoomNote extends GeneralNote {
   Colour: string
 };
 
+export type UpdateNoteProps = {
+  id: number;
+  note: string;
+}

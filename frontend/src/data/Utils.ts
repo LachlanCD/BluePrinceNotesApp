@@ -1,3 +1,5 @@
+import type { UpdateNoteProps } from "../types";
+
 export async function FetchData(url: string) {
   const response = await fetch(url);
   if (!response.ok) throw new Error('Network response was not ok');
@@ -31,4 +33,20 @@ export async function DeleteItem(url: string) {
   })
 
   if (!response.ok) throw new Error('Unable to remove item');
+}
+
+export type HandleNoteUpdateProps = {
+  id: number|undefined;
+  note: string;
+  updateNote: (updateNoteProps: UpdateNoteProps) => void;
+}
+
+export async function HandleNoteUpdate({id, note, updateNote}: HandleNoteUpdateProps) {
+    if (!note || !id) return;
+    const noteProps: UpdateNoteProps = {
+      id: id,
+      note: note,
+    };
+
+    updateNote(noteProps);
 }
