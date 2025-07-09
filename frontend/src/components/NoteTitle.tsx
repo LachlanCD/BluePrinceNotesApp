@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import SelectInput from "./SelectInput";
 import { GetHexCode } from "./Utils";
 
@@ -12,14 +13,37 @@ export type noteEditorProps = {
   colours?: string[];
 }
 
-const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour='White', setColour, colours }: noteEditorProps) => {
+const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour = 'White', setColour, colours }: noteEditorProps) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const editingRef = useRef(editing);
   const bc = GetHexCode(colour);
+  const firstUpdate = useRef(true);
+
+
+  useEffect(() => {
+    if (firstUpdate.current){
+      firstUpdate.current = false;
+      return;
+    }
+
+    if (!editing) {
+      handleSubmit();
+    }
+    
+    editingRef.current = editing;
+  }, [editing])
+
+  checkOutsideClick(wrapperRef, () => {
+    if (!editingRef.current) return;
+    setEditing(false);
+  });
+
+
   return (
     <div className="p-4">
       {editing ? (
         <div
-          onBlur={() => { setEditing(false); handleSubmit(); }}
-          autoFocus
+          ref={wrapperRef}
         >
           <input
             type="text"
@@ -49,5 +73,25 @@ const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour='W
     </div>
   );
 };
+
+const checkOutsideClick = ((
+  ref: React.RefObject<HTMLElement | null>,
+  onOutsideClick: (() => void),
+) => {
+  useEffect(() => {
+
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        onOutsideClick()
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+});
 
 export default NoteTitle
