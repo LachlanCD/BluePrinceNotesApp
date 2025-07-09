@@ -61,7 +61,7 @@ export default function CreationForm() {
           />
         </div>
 
-        {noteType === "Room" ? (
+        {noteType === "Room" && (
           <SelectInput
             label="Colour"
             options={colours}
@@ -69,7 +69,7 @@ export default function CreationForm() {
             onChange={setColour}
             placeholder="Select a colour"
             required
-          />) : <div />
+          />) 
         }
 
         <button
