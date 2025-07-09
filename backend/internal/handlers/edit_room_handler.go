@@ -29,7 +29,6 @@ func EditRoom(w http.ResponseWriter, r *http.Request) {
 		Id:     id,
 		Name:   r.FormValue("name"),
 		Colour: r.FormValue("colour"),
-		Notes:  r.FormValue("notes"),
 	}
 
 	err = db_interactions.UpdateRoom(room)

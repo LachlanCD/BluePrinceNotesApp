@@ -9,7 +9,7 @@ import (
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/models"
 )
 
-func EditGeneral(w http.ResponseWriter, r *http.Request) {
+func EditGeneralNote(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
 	urlId := r.PathValue("id")
@@ -25,18 +25,18 @@ func EditGeneral(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	generalNote := models.General{
-		Id:    id,
-		Name:  r.FormValue("name"),
+	genNote := models.General{
+		Id:     id,
+		Notes:  r.FormValue("notes"),
 	}
 
-	err = db_interactions.UpdateGeneral(generalNote)
+	err = db_interactions.UpdateGeneralNote(genNote)
 	if err != nil {
-		http.Error(w, "Unable to edit general note", http.StatusInternalServerError)
+		http.Error(w, "Unable to edit room", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(generalNote)
+	json.NewEncoder(w).Encode(genNote)
 }

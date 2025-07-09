@@ -135,14 +135,26 @@ func addGeneral(general models.General) (int, error) {
 }
 
 func updateRoom(room models.Room) error {
-	query := "UPDATE rooms SET name=?, colour=?, notes=? WHERE id=?"
-	_, err := db.Exec(query, room.Name, room.Colour, room.Notes, room.Id)
+	query := "UPDATE rooms SET name=?, colour=? WHERE id=?"
+	_, err := db.Exec(query, room.Name, room.Colour, room.Id)
+	return err
+}
+
+func updateRoomNote(room models.Room) error {
+	query := "UPDATE rooms SET notes=? WHERE id=?"
+	_, err := db.Exec(query, room.Notes, room.Id)
+	return err
+}
+
+func updateGeneral(generalNote models.General) error {
+	query := "UPDATE general SET name=? WHERE id=?"
+	_, err := db.Exec(query, generalNote.Name, generalNote.Id)
 	return err
 }
 
 func updateGeneralNote(generalNote models.General) error {
-	query := "UPDATE general SET name=?, notes=? WHERE id=?"
-	_, err := db.Exec(query, generalNote.Name, generalNote.Notes, generalNote.Id)
+	query := "UPDATE general SET notes=? WHERE id=?"
+	_, err := db.Exec(query, generalNote.Notes, generalNote.Id)
 	return err
 }
 

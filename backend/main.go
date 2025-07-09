@@ -35,11 +35,13 @@ func main() {
 	mux.HandleFunc("/rooms/{id}", handlers.GetRoomById)
 	mux.HandleFunc("/rooms/add", handlers.AddRoom)
 	mux.HandleFunc("/rooms/{id}/update", handlers.EditRoom)
+	mux.HandleFunc("/rooms/{id}/update/note", handlers.EditRoomNote)
 	mux.HandleFunc("/rooms/{id}/remove", handlers.RemoveRoomById)
 	mux.HandleFunc("/general", handlers.GetAllGeneral)
 	mux.HandleFunc("/general/{id}", handlers.GetGeneralNoteById)
 	mux.HandleFunc("/general/add", handlers.AddGeneralNote)
 	mux.HandleFunc("/general/{id}/update", handlers.EditGeneral)
+	mux.HandleFunc("/general/{id}/update/note", handlers.EditGeneralNote)
 	mux.HandleFunc("/general/{id}/remove", handlers.RemoveGeneralById)
 
 	handler := c.Handler(mux)

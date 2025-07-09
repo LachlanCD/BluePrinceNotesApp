@@ -53,10 +53,21 @@ func UpdateRoom(room models.Room) error {
 	if err != nil {
 		return err
 	}
-	if oldRoom == &room {
+	if oldRoom.Name == room.Name && oldRoom.Colour == room.Colour {
 		return errors.New("Room must be updated")
 	}
 	return updateRoom(room)
+}
+
+func UpdateRoomNote(room models.Room) error {
+	oldRoom, err := readRoomById(room.Id)
+	if err != nil {
+		return err
+	}
+	if oldRoom.Notes == room.Notes {
+		return errors.New("Room must be updated")
+	}
+	return updateRoomNote(room)
 }
 
 func UpdateGeneral(generalNote models.General) error {
@@ -64,8 +75,19 @@ func UpdateGeneral(generalNote models.General) error {
 	if err != nil {
 		return err
 	}
-	if oldGen == &generalNote {
+	if oldGen.Name == generalNote.Name {
 		return errors.New("General Note must be updated")
+	}
+	return updateGeneral(generalNote)
+}
+
+func UpdateGeneralNote(generalNote models.General) error {
+	oldGen, err := readGeneralById(generalNote.Id)
+	if err != nil {
+		return err
+	}
+	if oldGen.Notes == generalNote.Notes {
+		return errors.New("Room must be updated")
 	}
 	return updateGeneralNote(generalNote)
 }
