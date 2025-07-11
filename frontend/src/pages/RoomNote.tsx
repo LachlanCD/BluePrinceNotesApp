@@ -5,8 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import NoteEditor from "../components/NoteEditor";
 import DeleteButton from "../components/DeleteButton";
 import NoteTitle from "../components/NoteTitle";
+import { useWorkspaceIDRedirect } from "../data/Utils";
 
 export default function RoomNotePage() {
+  const workspaceID = useWorkspaceIDRedirect("/")
   const navigate = useNavigate()
   const { id } = useParams()
   const [room, setRoom] = useState<RoomNote | null>(null);
@@ -29,9 +31,10 @@ export default function RoomNotePage() {
 
   useEffect(() => {
     async function getRooms() {
+      if (!workspaceID) return;
       setError(null);
       try {
-        const roomData = await GETRoomDetails(id);
+        const roomData = await GETRoomDetails(workspaceID, id);
         setRoom(roomData);
         if (roomData.Name) setName(roomData.Name)
         if (roomData.Notes) setMarkdown(roomData.Notes)
@@ -42,9 +45,10 @@ export default function RoomNotePage() {
       }
     }
     getRooms()
-  }, []);
+  }, [workspaceID]);
 
   const handleUpdate = async () => {
+    if (!workspaceID) return;
     try {
       if (!room?.Name || !room.Colour) return;
 
@@ -54,16 +58,17 @@ export default function RoomNotePage() {
         Colour: colour,
       };
 
-      UpdateRoom(newRoom);
+      UpdateRoom(workspaceID, newRoom);
     } catch (err) {
       console.error(err);
     }
   }
 
   const handleDelete = async () => {
+    if (!workspaceID) return;
     try {
-      await DeleteRoom(id)
-      navigate('/')
+      await DeleteRoom(workspaceID, id)
+      navigate(`/${workspaceID}/rooms`)
     } catch (err) {
       console.error(err)
       setError("Failed to retrieve rooms.");
@@ -93,6 +98,7 @@ export default function RoomNotePage() {
           setMarkdown={setMarkdown}
           markdown={markdown}
           id={room?.Id}
+          workspaceID={workspaceID}
           handleSubmit={UpdateRoomNote}
         />
       </div>

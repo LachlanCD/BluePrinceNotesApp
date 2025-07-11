@@ -12,6 +12,8 @@ import (
 func EditGeneral(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -30,7 +32,7 @@ func EditGeneral(w http.ResponseWriter, r *http.Request) {
 		Name:  r.FormValue("name"),
 	}
 
-	err = db_interactions.UpdateGeneral(generalNote)
+	err = db_interactions.UpdateGeneral(urlWorkspace, generalNote)
 	if err != nil {
 		http.Error(w, "Unable to edit general note", http.StatusInternalServerError)
 		return

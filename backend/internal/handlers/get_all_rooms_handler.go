@@ -10,7 +10,9 @@ import (
 func GetAllRooms(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
-	data, err := db_interactions.ReadAllRooms()
+	urlWorkspace := r.PathValue("workspaceID")
+
+	data, err := db_interactions.ReadAllRooms(urlWorkspace)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

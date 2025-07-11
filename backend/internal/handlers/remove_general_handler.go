@@ -10,6 +10,8 @@ import (
 func RemoveGeneralById(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -18,7 +20,7 @@ func RemoveGeneralById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = db_interactions.RemoveGeneralNote(id)
+	err = db_interactions.RemoveGeneralNote(urlWorkspace, id)
 	if err != nil {
 		http.Error(w, "Unable to remove general note", http.StatusInternalServerError)
 		return

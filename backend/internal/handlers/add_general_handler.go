@@ -11,6 +11,8 @@ import (
 func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Unabbble to parse form", http.StatusBadRequest)
 		return
@@ -25,7 +27,7 @@ func AddGeneralNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := db_interactions.AddGeneral(generalNote)
+	data, err := db_interactions.AddGeneral(urlWorkspace, generalNote)
 	if err != nil {
 		http.Error(w, "Unable to add general note", http.StatusInternalServerError)
 		return

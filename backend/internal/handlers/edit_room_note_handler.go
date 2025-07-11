@@ -12,6 +12,8 @@ import (
 func EditRoomNote(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -30,7 +32,7 @@ func EditRoomNote(w http.ResponseWriter, r *http.Request) {
 		Notes:  r.FormValue("notes"),
 	}
 
-	err = db_interactions.UpdateRoomNote(room)
+	err = db_interactions.UpdateRoomNote(urlWorkspace, room)
 	if err != nil {
 		http.Error(w, "Unable to edit room", http.StatusInternalServerError)
 		return

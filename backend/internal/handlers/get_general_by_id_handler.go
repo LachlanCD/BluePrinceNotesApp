@@ -11,6 +11,8 @@ import (
 func GetGeneralNoteById(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -19,7 +21,7 @@ func GetGeneralNoteById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := db_interactions.ReadGeneralById(id)
+	data, err := db_interactions.ReadGeneralById(urlWorkspace, id)
 	if err != nil {
 		http.Error(w, "Unable to retrieve general note", http.StatusInternalServerError)
 		return

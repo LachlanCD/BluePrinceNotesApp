@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
 
-export default function Navbar() {
+export default function Navbar({ workspaceID }: { workspaceID: string }) {
+
   const menuItems = [
-    { name: "Rooms", href: "/" },
-    { name: "General", href: "/generals" },
-    { name: "Add New", href: "/add-new" },
+    { name: "Rooms", href: `/${workspaceID}/rooms` },
+    { name: "General", href: `/${workspaceID}/generals/` },
+    { name: "Add New", href: `/${workspaceID}/add-new/` },
   ];
 
   return (

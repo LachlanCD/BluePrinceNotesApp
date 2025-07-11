@@ -11,6 +11,8 @@ import (
 func AddRoom(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	if err := r.ParseForm(); err != nil {
 		http.Error(w, "Unabbble to parse form", http.StatusBadRequest)
 		return
@@ -26,7 +28,7 @@ func AddRoom(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := db_interactions.AddRoom(room)
+	data, err := db_interactions.AddRoom(urlWorkspace, room)
 	if err != nil {
 		http.Error(w, "Unable to add room", http.StatusInternalServerError)
 		return

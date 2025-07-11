@@ -12,6 +12,8 @@ import (
 func EditRoom(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -31,7 +33,7 @@ func EditRoom(w http.ResponseWriter, r *http.Request) {
 		Colour: r.FormValue("colour"),
 	}
 
-	err = db_interactions.UpdateRoom(room)
+	err = db_interactions.UpdateRoom(urlWorkspace, room)
 	if err != nil {
 		http.Error(w, "Unable to edit room", http.StatusInternalServerError)
 		return

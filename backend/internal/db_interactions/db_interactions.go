@@ -23,13 +23,15 @@ func createTables() error {
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS Rooms (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			name TEXT NOT NULL UNIQUE,
+			workspace_id TEXT NOT NULL,
+			name TEXT NOT NULL,
 			colour TEXT,
 			notes TEXT
 		);`,
 		`CREATE TABLE IF NOT EXISTS General (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			name TEXT NOT NULL UNIQUE,
+			workspace_id TEXT NOT NULL,
+			name TEXT NOT NULL,
 			notes TEXT
 		);`,
 	}
@@ -43,9 +45,9 @@ func createTables() error {
 	return nil
 }
 
-func readAllRooms() ([]*models.Room, error) {
-	query := "SELECT id, name, colour FROM rooms"
-	rows, err := db.Query(query)
+func readAllRooms(workspaceID string) ([]*models.Room, error) {
+	query := "SELECT id, name, colour FROM rooms WHERE workspace_id=?"
+	rows, err := db.Query(query, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -64,9 +66,9 @@ func readAllRooms() ([]*models.Room, error) {
 	return rooms, nil
 }
 
-func readRoomById(id int) (*models.Room, error) {
-	query := "SELECT id, name, colour, notes FROM rooms Where id=?"
-	row := db.QueryRow(query, id)
+func readRoomById(workspaceID string, id int) (*models.Room, error) {
+	query := "SELECT id, name, colour, notes FROM rooms WHERE id=? AND workspace_id=?"
+	row := db.QueryRow(query, id, workspaceID)
 
 	room := &models.Room{}
 
@@ -77,9 +79,9 @@ func readRoomById(id int) (*models.Room, error) {
 	return room, nil
 }
 
-func readAllGeneral() ([]*models.General, error) {
-	query := "SELECT id, name FROM general"
-	rows, err := db.Query(query)
+func readAllGeneral(workspaceID string) ([]*models.General, error) {
+	query := "SELECT id, name FROM general WHERE workspace_id=?"
+	rows, err := db.Query(query, workspaceID)
 	if err != nil {
 		return nil, err
 	}
@@ -98,9 +100,9 @@ func readAllGeneral() ([]*models.General, error) {
 	return generalNotes, nil
 }
 
-func readGeneralById(id int) (*models.General, error) {
-	query := "SELECT id, name, notes FROM general Where id=?"
-	row := db.QueryRow(query, id)
+func readGeneralById(workspaceID string, id int) (*models.General, error) {
+	query := "SELECT id, name, notes FROM general Where id=? AND workspace_id=?"
+	row := db.QueryRow(query, id, workspaceID)
 
 	generalNote := &models.General{}
 
@@ -124,48 +126,48 @@ func getLastId(result sql.Result, err error) (int, error) {
 	return roomid, nil
 }
 
-func addRoom(room models.Room) (int, error) {
-	result, err := db.Exec("INSERT INTO rooms (name, colour, notes) VALUES (?, ?, ?)", room.Name, room.Colour, "")
+func addRoom(workspaceID string, room models.Room) (int, error) {
+	result, err := db.Exec("INSERT INTO rooms (workspace_id, name, colour, notes) VALUES (?, ?, ?, ?)", workspaceID, room.Name, room.Colour, "")
 	return getLastId(result, err)
 }
 
-func addGeneral(general models.General) (int, error) {
-	result, err := db.Exec("INSERT INTO general (name, notes) VALUES (?, ?)", general.Name, "")
+func addGeneral(workspaceID string, general models.General) (int, error) {
+	result, err := db.Exec("INSERT INTO general (workspace_id, name, notes) VALUES (?, ?, ?)", workspaceID, general.Name, "")
 	return getLastId(result, err)
 }
 
-func updateRoom(room models.Room) error {
-	query := "UPDATE rooms SET name=?, colour=? WHERE id=?"
-	_, err := db.Exec(query, room.Name, room.Colour, room.Id)
+func updateRoom(workspaceID string, room models.Room) error {
+	query := "UPDATE rooms SET name=?, colour=? WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, room.Name, room.Colour, room.Id, workspaceID)
 	return err
 }
 
-func updateRoomNote(room models.Room) error {
-	query := "UPDATE rooms SET notes=? WHERE id=?"
-	_, err := db.Exec(query, room.Notes, room.Id)
+func updateRoomNote(workspaceID string, room models.Room) error {
+	query := "UPDATE rooms SET notes=? WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, room.Notes, room.Id, workspaceID)
 	return err
 }
 
-func updateGeneral(generalNote models.General) error {
-	query := "UPDATE general SET name=? WHERE id=?"
-	_, err := db.Exec(query, generalNote.Name, generalNote.Id)
+func updateGeneral(workspaceID string, generalNote models.General) error {
+	query := "UPDATE general SET name=? WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, generalNote.Name, generalNote.Id, workspaceID)
 	return err
 }
 
-func updateGeneralNote(generalNote models.General) error {
-	query := "UPDATE general SET notes=? WHERE id=?"
-	_, err := db.Exec(query, generalNote.Notes, generalNote.Id)
+func updateGeneralNote(workspaceID string, generalNote models.General) error {
+	query := "UPDATE general SET notes=? WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, generalNote.Notes, generalNote.Id, workspaceID)
 	return err
 }
 
-func removeRoomEntry(id int) error {
-	query := "DELETE FROM rooms WHERE id=?"
-	_, err := db.Exec(query, id)
+func removeRoomEntry(workspaceID string, id int) error {
+	query := "DELETE FROM rooms WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, id, workspaceID)
 	return err
 }
 
-func removeGeneralEntry(id int) error {
-	query := "DELETE FROM general WHERE id=?"
-	_, err := db.Exec(query, id)
+func removeGeneralEntry(workspaceID string, id int) error {
+	query := "DELETE FROM general WHERE id=? AND workspace_id=?"
+	_, err := db.Exec(query, id, workspaceID)
 	return err
 }

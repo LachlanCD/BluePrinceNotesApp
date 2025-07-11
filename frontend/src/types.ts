@@ -31,5 +31,6 @@ export interface RoomNote extends GeneralNote {
 
 export type UpdateNoteProps = {
   id: number;
+  workspaceID: string;
   note: string;
 }

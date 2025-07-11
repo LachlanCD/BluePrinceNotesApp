@@ -1,6 +1,6 @@
-export function GetHexCode(colour: string): string | undefined {
+export function GetHexCode(colour: string|undefined): string {
+  if (!colour) return "ffffff";
   const colourMap: { [key: string]: string } = {
-    white: "#FFFFFF",
     blue: "#1d6fb7",
     purple: "#7b397b",
     orange: "#bf652a",

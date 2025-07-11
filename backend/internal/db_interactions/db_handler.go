@@ -1,7 +1,10 @@
 package db_interactions
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
+
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/models"
 )
 
@@ -16,78 +19,87 @@ func InitDB(dbPath string) error {
 
 }
 
-func ReadAllRooms() ([]*models.Room, error) {
-	return readAllRooms()
+func ReadAllRooms(workspaceID string) ([]*models.Room, error) {
+	return readAllRooms(workspaceID)
 }
 
-func ReadRoomById(id int) (*models.Room, error) {
-	return readRoomById(id)
+func ReadRoomById(workspaceID string, id int) (*models.Room, error) {
+	return readRoomById(workspaceID, id)
 }
 
-func ReadAllGeneral() ([]*models.General, error) {
-	return readAllGeneral()
+func ReadAllGeneral(workspaceID string) ([]*models.General, error) {
+	return readAllGeneral(workspaceID)
 }
 
-func ReadGeneralById(id int) (*models.General, error) {
-	return readGeneralById(id)
+func ReadGeneralById(workspaceID string, id int) (*models.General, error) {
+	return readGeneralById(workspaceID, id)
 }
 
-func AddRoom(room models.Room) (int, error) {
-	return addRoom(room)
+func AddRoom(workspaceID string, room models.Room) (int, error) {
+	return addRoom(workspaceID, room)
 }
 
-func AddGeneral(generalNote models.General) (int, error) {
-	return addGeneral(generalNote)
+func AddGeneral(workspaceID string, generalNote models.General) (int, error) {
+	return addGeneral(workspaceID, generalNote)
 }
 
-func RemoveRoomNote(id int) error {
-	return removeRoomEntry(id)
+func RemoveRoomNote(workspaceID string, id int) error {
+	return removeRoomEntry(workspaceID, id)
 }
 
-func RemoveGeneralNote(id int) error {
-	return removeGeneralEntry(id)
+func RemoveGeneralNote(workspaceID string, id int) error {
+	return removeGeneralEntry(workspaceID, id)
 }
 
-func UpdateRoom(room models.Room) error {
-	oldRoom, err := readRoomById(room.Id)
+func UpdateRoom(workspaceID string, room models.Room) error {
+	oldRoom, err := readRoomById(workspaceID, room.Id)
 	if err != nil {
 		return err
 	}
 	if oldRoom.Name == room.Name && oldRoom.Colour == room.Colour {
 		return errors.New("Room must be updated")
 	}
-	return updateRoom(room)
+	return updateRoom(workspaceID, room)
 }
 
-func UpdateRoomNote(room models.Room) error {
-	oldRoom, err := readRoomById(room.Id)
+func UpdateRoomNote(workspaceID string, room models.Room) error {
+	oldRoom, err := readRoomById(workspaceID, room.Id)
 	if err != nil {
 		return err
 	}
 	if oldRoom.Notes == room.Notes {
 		return errors.New("Room must be updated")
 	}
-	return updateRoomNote(room)
+	return updateRoomNote(workspaceID, room)
 }
 
-func UpdateGeneral(generalNote models.General) error {
-	oldGen, err := readGeneralById(generalNote.Id)
+func UpdateGeneral(workspaceID string, generalNote models.General) error {
+	oldGen, err := readGeneralById(workspaceID, generalNote.Id)
 	if err != nil {
 		return err
 	}
 	if oldGen.Name == generalNote.Name {
 		return errors.New("General Note must be updated")
 	}
-	return updateGeneral(generalNote)
+	return updateGeneral(workspaceID, generalNote)
 }
 
-func UpdateGeneralNote(generalNote models.General) error {
-	oldGen, err := readGeneralById(generalNote.Id)
+func UpdateGeneralNote(workspaceID string, generalNote models.General) error {
+	oldGen, err := readGeneralById(workspaceID, generalNote.Id)
 	if err != nil {
 		return err
 	}
 	if oldGen.Notes == generalNote.Notes {
 		return errors.New("Room must be updated")
 	}
-	return updateGeneralNote(generalNote)
+	return updateGeneralNote(workspaceID, generalNote)
 }
+
+func GenerateWorkspaceID() (string, error) {
+	bytes := make([]byte, 8)
+	_, err := rand.Read(bytes)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(bytes), nil
+}	

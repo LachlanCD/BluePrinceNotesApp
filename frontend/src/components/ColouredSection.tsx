@@ -3,11 +3,12 @@ import Card from "./Card";
 import { GetHexCode } from "./Utils";
 
 export type SecitonProps = {
+  workspaceID: string;
   colour: string;
   rooms: RoomCard[];
 }
 
-export default function ColouredSection({ colour, rooms }: SecitonProps) {
+export default function ColouredSection({ workspaceID, colour, rooms }: SecitonProps) {
   const bgColour = GetHexCode(colour)
   return (
     <div className="mt-5">
@@ -15,7 +16,7 @@ export default function ColouredSection({ colour, rooms }: SecitonProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
         {rooms.map((room, id) => (
           <div className="card" key={id}>
-            <Card {...room} />
+            <Card workspaceID={workspaceID} room={room}/>
           </div>
         )
         )}

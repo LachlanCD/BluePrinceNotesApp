@@ -12,6 +12,8 @@ import (
 func GetRoomById(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
+	urlWorkspace := r.PathValue("workspaceID")
+
 	urlId := r.PathValue("id")
 
 	id, err := strconv.Atoi(urlId)
@@ -20,7 +22,7 @@ func GetRoomById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := db_interactions.ReadRoomById(id)
+	data, err := db_interactions.ReadRoomById(urlWorkspace, id)
 	if err != nil {
 		fmt.Println(err.Error())
 		http.Error(w, "Unable to retrieve room", http.StatusInternalServerError)

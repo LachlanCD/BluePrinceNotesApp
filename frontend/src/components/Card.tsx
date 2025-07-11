@@ -2,19 +2,25 @@ import { Link } from "react-router-dom";
 import { GetHexCode } from "./Utils";
 import { type Card } from "../types";
 
-export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
-  const bc = GetHexCode(Colour);
-  const link = getLink(Colour, Id);
+export type CardProps = {
+  workspaceID: string;
+  room: Card;
+}
+
+export default function BaseCard({ workspaceID, room }: CardProps) {
+  console.log(room)
+  const bc = GetHexCode(room.Colour);
+  const link = getLink(workspaceID, room.Colour, room.Id);
   return (
     <div>
       <Link to={link}>
         <div className="text-md text-center text-stone-700 dark:text-zinc-200 font-bold shadow sm:rounded-lg border-2 w-35 h-35 place-content-center text-wrap transform hover:scale-115"
-          style={Colour !== "white" ? { borderColor: bc }: undefined}
+          style={room.Colour ? { borderColor: bc } : undefined}
         >
           <h3 className="p-3"
-          style={Colour !== "white" ? { color: bc }: undefined}
+            style={room.Colour ? { color: bc } : undefined}
           >
-            {Name}
+            {room.Name}
           </h3>
         </div>
       </Link>
@@ -22,7 +28,7 @@ export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
   );
 };
 
-function getLink(colour: string, id: number) {
-  if (colour === "white") return `/generals/${id}`
-  return `/rooms/${id}`
+function getLink(workspaceID: string, colour: string | undefined, id: number) {
+  if (!colour) return `/${workspaceID}/generals/${id}`
+  return `/${workspaceID}/rooms/${id}`
 }

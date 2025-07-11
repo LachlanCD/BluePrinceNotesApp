@@ -8,10 +8,11 @@ export type noteEditorProps = {
   setMarkdown: (value: string) => void;
   markdown: string;
   id: number | undefined;
-  handleSubmit: ({ id, note }: UpdateNoteProps) => void;
+  workspaceID: string | null;
+  handleSubmit: ({ id, workspaceID, note }: UpdateNoteProps) => void;
 }
 
-const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, handleSubmit }: noteEditorProps) => {
+const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, workspaceID, handleSubmit }: noteEditorProps) => {
   const handleTab = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Tab") {
       e.preventDefault();
@@ -31,6 +32,8 @@ const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, handleSubm
     }
   };
 
+  if (!workspaceID) return;
+
   return (
     <div className="mx-20">
       <div className="pt-4 bg-slate-50/90 rounded-lg">
@@ -38,7 +41,7 @@ const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, handleSubm
           {editing ? (
             <textarea
               onClick={() => setEditing(true)}
-              onBlur={() => { setEditing(false); HandleNoteUpdate({ id, note: markdown, updateNote: handleSubmit }) }}
+              onBlur={() => { setEditing(false); HandleNoteUpdate({ id, workspaceID, note: markdown, updateNote: handleSubmit }) }}
               autoFocus
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}

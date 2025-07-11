@@ -1,12 +1,14 @@
 import { type GeneralCard, type GeneralNote } from "../types";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DeleteGeneral, GETGeneralDetails, UpdateGeneral } from "../data/General";
+import { DeleteGeneral, GETGeneralDetails, UpdateGeneral, UpdateGeneralNote } from "../data/General";
 import NoteEditor from "../components/NoteEditor";
 import DeleteButton from "../components/DeleteButton";
 import NoteTitle from "../components/NoteTitle";
+import { useWorkspaceIDRedirect } from "../data/Utils";
 
 export default function RoomNotePage() {
+  const workspaceID = useWorkspaceIDRedirect("/generals/")
   const navigate = useNavigate()
   const { id } = useParams()
   const [general, setGeneral] = useState<GeneralNote | null>(null);
@@ -18,9 +20,10 @@ export default function RoomNotePage() {
 
   useEffect(() => {
     async function getRooms() {
+      if (!workspaceID) return;
       setError(null);
       try {
-        const genData = await GETGeneralDetails(id);
+        const genData = await GETGeneralDetails(workspaceID, id);
         setGeneral(genData);
         if (genData.Name) setName(genData.Name)
         if (genData.Notes) setMarkdown(genData.Notes)
@@ -30,11 +33,11 @@ export default function RoomNotePage() {
       }
     }
     getRooms()
-  }, []);
+  }, [workspaceID]);
 
 
   const handleUpdate = async () => {
-
+    if (!workspaceID) return;
     try {
       if (!general?.Name) return;
       const newGeneral: GeneralCard = {
@@ -42,7 +45,7 @@ export default function RoomNotePage() {
         Name: name,
       };
 
-      UpdateGeneral(newGeneral);
+      UpdateGeneral(workspaceID, newGeneral);
     } catch (err) {
       console.error(err)
       setError("Failed to retrieve rooms.");
@@ -50,9 +53,10 @@ export default function RoomNotePage() {
   }
 
   const handleDelete = async () => {
+    if (!workspaceID) return;
     try {
-      await DeleteGeneral(id)
-      navigate('/generals')
+      await DeleteGeneral(workspaceID, id)
+      navigate(`/${workspaceID}/generals`)
     } catch (err) {
       console.error(err)
       setError("Failed to retrieve rooms.");
@@ -77,7 +81,8 @@ export default function RoomNotePage() {
         markdown={markdown}
         setMarkdown={setMarkdown}
         id={general?.Id}
-        handleSubmit={handleUpdate}
+        workspaceID={workspaceID}
+        handleSubmit={UpdateGeneralNote}
       />
       <DeleteButton
         handleSubmit={handleDelete}

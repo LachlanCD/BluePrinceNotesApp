@@ -10,7 +10,9 @@ import (
 func GetAllGeneral(w http.ResponseWriter, r *http.Request) {
 	printRequest(r)
 
-	data, err := db_interactions.ReadAllGeneral()
+	urlWorkspace := r.PathValue("workspaceID")
+
+	data, err := db_interactions.ReadAllGeneral(urlWorkspace)
 	if err != nil {
 		http.Error(w, "Unable to retrieve general notes", http.StatusInternalServerError)
 		return

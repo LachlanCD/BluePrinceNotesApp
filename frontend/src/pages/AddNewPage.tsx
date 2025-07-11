@@ -3,8 +3,10 @@ import SelectInput from '../components/SelectInput';
 import { FormatNewRoom } from '../data/Rooms';
 import { FormatNewGeneral } from '../data/General';
 import { useNavigate } from 'react-router-dom';
+import { useWorkspaceIDRedirect } from '../data/Utils';
 
 export default function CreationForm() {
+  const workspaceID = useWorkspaceIDRedirect("/add-new/")
   const [name, setName] = useState('');
   const [colour, setColour] = useState('');
   const [noteType, setNoteType] = useState('');
@@ -27,11 +29,12 @@ export default function CreationForm() {
   ]
 
   const handleSubmit = async (e: React.FormEvent) => {
+    if (!workspaceID) return;
     e.preventDefault();
 
     try {
-      if (noteType === "Room") return await FormatNewRoom({ name, colour, navigate })
-      return await FormatNewGeneral({ name, navigate })
+      if (noteType === "Room") return await FormatNewRoom(workspaceID, { name, colour, navigate })
+      return await FormatNewGeneral(workspaceID, { name, navigate })
     } catch (err) {
       console.error(err)
     }
@@ -69,7 +72,7 @@ export default function CreationForm() {
             onChange={setColour}
             placeholder="Select a colour"
             required
-          />) 
+          />)
         }
 
         <button
