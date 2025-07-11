@@ -10,7 +10,7 @@ import GeneralNotePage from './pages/GeneralNote'
 function App() {
 
   return (
-    <div className="pt-20">
+    <>
       <Navbar />
       <Routes>
         <Route path='/' element={<RoomHomePage />} />
@@ -19,7 +19,7 @@ function App() {
         <Route path='/rooms/:id' element={<RoomNotePage />} />
         <Route path='/generals/:id' element={<GeneralNotePage />} />
       </Routes>
-    </div>
+    </>
   )
 }
 

@@ -38,11 +38,11 @@ export default function CreationForm() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md">
+    <div className="bg-stone-200/50 text-stone-900 dark:bg-stone-700 dark:text-zinc-200 max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4">Create Item</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <SelectInput
-          label="noteType"
+          label="Note Type"
           options={noteTypes}
           value={noteType}
           onChange={setNoteType}
@@ -74,7 +74,7 @@ export default function CreationForm() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+          className="w-full bg-stone-400 text-white px-4 py-2 rounded-md hover:bg-stone-500 transition"
         >
           Submit
         </button>

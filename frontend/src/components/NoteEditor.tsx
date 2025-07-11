@@ -7,8 +7,8 @@ export type noteEditorProps = {
   editing: boolean;
   setMarkdown: (value: string) => void;
   markdown: string;
-  id: number|undefined;
-  handleSubmit: ({id, note}: UpdateNoteProps) => void;
+  id: number | undefined;
+  handleSubmit: ({ id, note }: UpdateNoteProps) => void;
 }
 
 const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, handleSubmit }: noteEditorProps) => {
@@ -32,23 +32,26 @@ const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, handleSubm
   };
 
   return (
-    <div>
-      <div style={{ marginTop: '1rem' }}>
-        {editing ? (
-          <textarea
-            onClick={() => setEditing(true)}
-            onBlur={() => { setEditing(false); HandleNoteUpdate({id, note:markdown, updateNote:handleSubmit}) }}
-            autoFocus
-            value={markdown}
-            onChange={(e) => setMarkdown(e.target.value)}
-            onKeyDown={handleTab}
-            className="cursor-pointer w-full h-64 p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        ) : (
-          <div onClick={() => setEditing(true)} className="cursor-pointer">
-            <MarkdownRenderer content={markdown} />
-          </div>
-        )}
+    <div className="mx-20">
+      <div className="pt-4 bg-slate-50/90 rounded-lg">
+        <div className="p-5">
+          {editing ? (
+            <textarea
+              onClick={() => setEditing(true)}
+              onBlur={() => { setEditing(false); HandleNoteUpdate({ id, note: markdown, updateNote: handleSubmit }) }}
+              autoFocus
+              value={markdown}
+              onChange={(e) => setMarkdown(e.target.value)}
+              onKeyDown={handleTab}
+              className="cursor-pointer bg-white w-full h-200 p-3 border rounded shadow-sm focus:outline-none border-slate-50 text-black"
+            />
+          ) : (
+
+            <div onClick={() => setEditing(true)} className="cursor-pointer">
+              <MarkdownRenderer content={markdown} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

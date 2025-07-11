@@ -8,10 +8,14 @@ export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
   return (
     <div>
       <Link to={link}>
-        <div className="text-md text-center text-gray-300 font-bold shadow sm:rounded-lg border-2 w-35 h-35 place-content-center text-wrap transform hover:scale-115"
-          style={{ borderColor: bc }}
+        <div className="text-md text-center text-stone-700 dark:text-zinc-200 font-bold shadow sm:rounded-lg border-2 w-35 h-35 place-content-center text-wrap transform hover:scale-115"
+          style={Colour !== "white" ? { borderColor: bc }: undefined}
         >
-          <h3 className="p-3">{Name}</h3>
+          <h3 className="p-3"
+          style={Colour !== "white" ? { color: bc }: undefined}
+          >
+            {Name}
+          </h3>
         </div>
       </Link>
     </div>
@@ -20,5 +24,5 @@ export default function BaseCard({ Id, Name, Colour = "white" }: Card) {
 
 function getLink(colour: string, id: number) {
   if (colour === "white") return `/generals/${id}`
-  return`/rooms/${id}` 
+  return `/rooms/${id}`
 }
