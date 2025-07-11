@@ -24,7 +24,7 @@ export default function GeneralHomePage() {
   }, []);
 
 
-  if (notes === null && error === null) return <div>Loading...</div>;
+  if (notes === null && error === null) return <div className="mt-20">No Notes Yet.</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (

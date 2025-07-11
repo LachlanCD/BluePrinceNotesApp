@@ -32,7 +32,7 @@ export default function RoomHomePage() {
     return acc;
   }, {}) || {};
 
-  if (rooms === null && error === null) return <div>Loading...</div>;
+  if (rooms === null && error === null) return <div className="mt-20">No Notes Yet.</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
