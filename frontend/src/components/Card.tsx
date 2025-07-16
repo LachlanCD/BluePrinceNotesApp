@@ -8,7 +8,6 @@ export type CardProps = {
 }
 
 export default function BaseCard({ workspaceID, room }: CardProps) {
-  console.log(room)
   const bc = GetHexCode(room.Colour);
   const link = getLink(workspaceID, room.Colour, room.Id);
   return (
