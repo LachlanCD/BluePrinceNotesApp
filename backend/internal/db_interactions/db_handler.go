@@ -8,9 +8,9 @@ import (
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/models"
 )
 
-func InitDB(dbPath string) error {
+func InitDB() error {
 
-	err := openDB(dbPath)
+	err := openDB()
 	if err != nil {
 		return err
 	}

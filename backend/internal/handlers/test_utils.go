@@ -24,7 +24,7 @@ func openDB(dbPath string) error {
 }
 
 func initTestingDB() {
-	db_interactions.InitDB("../../data/test.db")
+	db_interactions.InitDB()
 	openDB("../../data/test.db")
 	seedDB()
 }

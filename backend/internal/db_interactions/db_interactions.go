@@ -2,18 +2,31 @@ package db_interactions
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/models"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/denisenkom/go-mssqldb"
 )
 
 var db *sql.DB
 
-func openDB(dbPath string) error {
+func openDB() error {
+	server := os.Getenv("DB_SERVER")
+	port := 1433
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	database := os.Getenv("DB_NAME")
+
+	fmt.Printf(`server: %s`, server)
+	connString := fmt.Sprintf(
+		"server=%s;user id=%s;password=%s;port=%d;database=%s;encrypt=true",
+		server, user, password, port, database)
+
 	var err error
-	db, err = sql.Open("sqlite3", dbPath)
+	db, err = sql.Open("sqlserver", connString)
 	if err != nil {
-		return err
+		panic(err)
 	}
 
 	return db.Ping()
@@ -21,19 +34,25 @@ func openDB(dbPath string) error {
 
 func createTables() error {
 	queries := []string{
-		`CREATE TABLE IF NOT EXISTS Rooms (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			workspace_id TEXT NOT NULL,
-			name TEXT NOT NULL,
-			colour TEXT,
-			notes TEXT
-		);`,
-		`CREATE TABLE IF NOT EXISTS General (
-			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			workspace_id TEXT NOT NULL,
-			name TEXT NOT NULL,
-			notes TEXT
-		);`,
+		`IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Rooms' AND xtype='U')
+			BEGIN
+					CREATE TABLE Rooms (
+							id INT IDENTITY(1,1) PRIMARY KEY,
+							workspace_id NVARCHAR(255) NOT NULL,
+							name NVARCHAR(255) NOT NULL,
+							colour NVARCHAR(255),
+							notes NVARCHAR(MAX)
+					);
+			END`,
+		`IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='General' AND xtype='U')
+			BEGIN
+					CREATE TABLE General (
+							id INT IDENTITY(1,1) PRIMARY KEY,
+							workspace_id NVARCHAR(255) NOT NULL,
+							name NVARCHAR(255) NOT NULL,
+							notes NVARCHAR(MAX)
+					);
+			END`,
 	}
 
 	for _, query := range queries {
@@ -46,7 +65,7 @@ func createTables() error {
 }
 
 func readAllRooms(workspaceID string) ([]*models.Room, error) {
-	query := "SELECT id, name, colour FROM rooms WHERE workspace_id=?"
+	query := "SELECT id, name, colour FROM rooms WHERE workspace_id = @p1"
 	rows, err := db.Query(query, workspaceID)
 	if err != nil {
 		return nil, err
@@ -67,7 +86,7 @@ func readAllRooms(workspaceID string) ([]*models.Room, error) {
 }
 
 func readRoomById(workspaceID string, id int) (*models.Room, error) {
-	query := "SELECT id, name, colour, notes FROM rooms WHERE id=? AND workspace_id=?"
+	query := "SELECT id, name, colour, notes FROM rooms WHERE id = @p1 AND workspace_id = @p2"
 	row := db.QueryRow(query, id, workspaceID)
 
 	room := &models.Room{}
@@ -80,7 +99,7 @@ func readRoomById(workspaceID string, id int) (*models.Room, error) {
 }
 
 func readAllGeneral(workspaceID string) ([]*models.General, error) {
-	query := "SELECT id, name FROM general WHERE workspace_id=?"
+	query := "SELECT id, name FROM general WHERE workspace_id=@p1"
 	rows, err := db.Query(query, workspaceID)
 	if err != nil {
 		return nil, err
@@ -101,7 +120,7 @@ func readAllGeneral(workspaceID string) ([]*models.General, error) {
 }
 
 func readGeneralById(workspaceID string, id int) (*models.General, error) {
-	query := "SELECT id, name, notes FROM general Where id=? AND workspace_id=?"
+	query := "SELECT id, name, notes FROM general Where id=@p1 AND workspace_id=@p2"
 	row := db.QueryRow(query, id, workspaceID)
 
 	generalNote := &models.General{}
@@ -113,61 +132,48 @@ func readGeneralById(workspaceID string, id int) (*models.General, error) {
 	return generalNote, nil
 }
 
-func getLastId(result sql.Result, err error) (int, error) {
-	if err != nil {
-		return 0, err
-	}
-
-	lastid, err := result.LastInsertId()
-	if err != nil {
-		return 0, err
-	}
-	roomid := int(lastid)
-	return roomid, nil
-}
-
 func addRoom(workspaceID string, room models.Room) (int, error) {
-	result, err := db.Exec("INSERT INTO rooms (workspace_id, name, colour, notes) VALUES (?, ?, ?, ?)", workspaceID, room.Name, room.Colour, "")
-	return getLastId(result, err)
+	_, err := db.Exec("INSERT INTO rooms (workspace_id, name, colour, notes) VALUES (@p1, @p2, @p3, @p4)", workspaceID, room.Name, room.Colour, "")
+	return 1, err
 }
 
 func addGeneral(workspaceID string, general models.General) (int, error) {
-	result, err := db.Exec("INSERT INTO general (workspace_id, name, notes) VALUES (?, ?, ?)", workspaceID, general.Name, "")
-	return getLastId(result, err)
+	_, err := db.Exec("INSERT INTO general (workspace_id, name, notes) VALUES (@p1, @p2, @p3)", workspaceID, general.Name, "")
+	return 1, err
 }
 
 func updateRoom(workspaceID string, room models.Room) error {
-	query := "UPDATE rooms SET name=?, colour=? WHERE id=? AND workspace_id=?"
+	query := "UPDATE rooms SET name=@p1, colour=@p2 WHERE id=@p3 AND workspace_id=@p3"
 	_, err := db.Exec(query, room.Name, room.Colour, room.Id, workspaceID)
 	return err
 }
 
 func updateRoomNote(workspaceID string, room models.Room) error {
-	query := "UPDATE rooms SET notes=? WHERE id=? AND workspace_id=?"
+	query := "UPDATE rooms SET notes=@p1 WHERE id=@p2 AND workspace_id=@p3"
 	_, err := db.Exec(query, room.Notes, room.Id, workspaceID)
 	return err
 }
 
 func updateGeneral(workspaceID string, generalNote models.General) error {
-	query := "UPDATE general SET name=? WHERE id=? AND workspace_id=?"
+	query := "UPDATE general SET name=@p1 WHERE id=@p2 AND workspace_id=@p3"
 	_, err := db.Exec(query, generalNote.Name, generalNote.Id, workspaceID)
 	return err
 }
 
 func updateGeneralNote(workspaceID string, generalNote models.General) error {
-	query := "UPDATE general SET notes=? WHERE id=? AND workspace_id=?"
+	query := "UPDATE general SET notes=@p1 WHERE id=@p2 AND workspace_id=@p3"
 	_, err := db.Exec(query, generalNote.Notes, generalNote.Id, workspaceID)
 	return err
 }
 
 func removeRoomEntry(workspaceID string, id int) error {
-	query := "DELETE FROM rooms WHERE id=? AND workspace_id=?"
+	query := "DELETE FROM rooms WHERE id=@p1 AND workspace_id=@p2"
 	_, err := db.Exec(query, id, workspaceID)
 	return err
 }
 
 func removeGeneralEntry(workspaceID string, id int) error {
-	query := "DELETE FROM general WHERE id=? AND workspace_id=?"
+	query := "DELETE FROM general WHERE id=@p1 AND workspace_id=@p2"
 	_, err := db.Exec(query, id, workspaceID)
 	return err
 }

@@ -20,14 +20,14 @@ RUN go build -o /app/server
 FROM debian:bookworm-slim
 WORKDIR /app
 
+# Install CA certs for TLS verification
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
 # Copy built Go binary
 COPY --from=backend-builder /app/server .
 # Copy built frontend
 COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
-# Copy database (optional; or mount it at runtime)
-COPY backend/data/notes.db ./data/notes.db
 
-EXPOSE 3000
+EXPOSE 4000
 
 CMD ["./server"]
-

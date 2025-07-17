@@ -14,10 +14,10 @@ import (
 )
 
 func main() {
-	// initialise db
-	dbPath := "./data/notes.db"
+	var err error
+
 	fmt.Println("running")
-	err := db_interactions.InitDB(dbPath)
+	err = db_interactions.InitDB()
 	if err != nil {
 		log.Fatal(err)
 	}
