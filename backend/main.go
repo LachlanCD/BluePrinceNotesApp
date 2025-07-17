@@ -11,8 +11,6 @@ import (
 
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/db_interactions"
 	"github.com/LachlanCD/BluePrinceNotesApp/internal/handlers"
-
-	"github.com/rs/cors"
 )
 
 func main() {
@@ -24,13 +22,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("db created")
-
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:5173"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"*"},
-		AllowCredentials: true,
-	})
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/rooms/{workspaceID}", handlers.GetAllRooms)
@@ -73,9 +64,7 @@ func main() {
 		http.ServeFile(w, r, filepath.Join(distDir, "index.html"))
 	})
 
-	handler := c.Handler(rootHandler)
-
-	err = http.ListenAndServe(":3000", handler)
+	err = http.ListenAndServe(":4000", rootHandler)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
 	} else if err != nil {

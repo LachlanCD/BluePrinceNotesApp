@@ -64,7 +64,7 @@ export function useWorkspaceIDRedirect(currentUrl: string) {
     async function getID() {
       if (!workspaceID) {
         try {
-          const route = `/create-workspace`
+          const route = `/api/create-workspace`
           const url = import.meta.env.VITE_BASE_URL + route
           const res = await fetch(url, { method: "POST" });
           const newID = await res.text();
