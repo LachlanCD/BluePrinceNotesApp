@@ -51,7 +51,7 @@ const NoteEditor = ({ setEditing, editing, setMarkdown, markdown, id, workspaceI
           ) : (
 
             <div onClick={() => setEditing(true)} className="cursor-pointer">
-              <MarkdownRenderer content={markdown} />
+              <MarkdownRenderer content={markdown || "Click to enter some notes."} />
             </div>
           )}
         </div>

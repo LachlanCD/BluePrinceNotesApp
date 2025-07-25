@@ -14,7 +14,7 @@ export default function RoomNotePage() {
   const [general, setGeneral] = useState<GeneralNote | null>(null);
   const [error, setError] = useState<String | null>(null);
   const [editingNote, setEditingNote] = useState<boolean>(false);
-  const [markdown, setMarkdown] = useState<string>(`No notes yet`);
+  const [markdown, setMarkdown] = useState<string>("");
   const [name, setName] = useState<string>(`Something Went Wrong`);
   const [editingName, setEditingName] = useState<boolean>(false);
 
