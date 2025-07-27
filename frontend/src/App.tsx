@@ -7,6 +7,7 @@ import RoomNotePage from './pages/RoomNote'
 import GeneralNotePage from './pages/GeneralNote'
 import PageLayout from './pages/PageLayout'
 import NotFound from './pages/NotFoundPage'
+import HomePage from './pages/Home'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<RoomHomePage />} />
+        <Route path='/' element={<HomePage />} />
         <Route path='/:workspaceID' element={<PageLayout />} >
           <Route path='/:workspaceID/rooms' element={<RoomHomePage />} />
           <Route path='/:workspaceID/generals' element={<GeneralHomePage />} />
