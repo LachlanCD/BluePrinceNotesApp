@@ -4,7 +4,7 @@ import { AddNew, DeleteItem, FetchAndCache, FetchData } from "./Utils";
 export async function GETAllRooms(workspaceID: string) {
   if (!workspaceID) return
   try {
-    const route = `/api/rooms/${workspaceID}`
+    const route = `/rooms/${workspaceID}`
     const url = import.meta.env.VITE_BASE_URL + route
     return FetchAndCache(url)
   } catch (err) {
@@ -14,7 +14,7 @@ export async function GETAllRooms(workspaceID: string) {
 
 export async function GETRoomDetails(workspaceID: string, id: string | undefined) {
   try {
-    const route = `/api/rooms/${workspaceID}/${id}`
+    const route = `/rooms/${workspaceID}/${id}`
     const url = import.meta.env.VITE_BASE_URL + route
     return FetchData(url)
   } catch (err) {
@@ -28,7 +28,7 @@ export async function ADDNewRoom(workspaceID: string, newRoom: NewRoom) {
     formData.append('name', newRoom.Name);
     formData.append('colour', newRoom.Colour);
 
-    const route = `/api/rooms/${workspaceID}/add`
+    const route = `/rooms/${workspaceID}/add`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -62,7 +62,7 @@ export async function UpdateRoom(workspaceID: string, newRoom: RoomCard) {
     formData.append('name', newRoom.Name);
     formData.append('colour', newRoom.Colour);
 
-    const route = `/api/rooms/${workspaceID}/${newRoom.Id}/update`
+    const route = `/rooms/${workspaceID}/${newRoom.Id}/update`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -76,7 +76,7 @@ export async function UpdateRoomNote({ id, workspaceID, note }: UpdateNoteProps)
     const formData = new URLSearchParams();
     formData.append('notes', note);
 
-    const route = `/api/rooms/${workspaceID}/${id}/update/note`
+    const route = `/rooms/${workspaceID}/${id}/update/note`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -86,7 +86,7 @@ export async function UpdateRoomNote({ id, workspaceID, note }: UpdateNoteProps)
 
 export async function DeleteRoom(workspaceID: string, id: string | undefined) {
   try {
-    const route = `/api/rooms/${workspaceID}/${id}/remove`
+    const route = `/rooms/${workspaceID}/${id}/remove`
     const url = import.meta.env.VITE_BASE_URL + route
     return DeleteItem(url)
   } catch (err) {
