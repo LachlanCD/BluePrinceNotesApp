@@ -21,7 +21,7 @@ const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour = 
 
 
   useEffect(() => {
-    if (firstUpdate.current){
+    if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
     }
@@ -29,7 +29,7 @@ const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour = 
     if (!editing) {
       handleSubmit();
     }
-    
+
     editingRef.current = editing;
   }, [editing])
 
@@ -49,16 +49,20 @@ const NoteTitle = ({ setEditing, editing, setName, name, handleSubmit, colour = 
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="text-3xl font-bold border p-1"
+            className="text-3xl font-bold border p-3 rounded-lg"
           />
           {(colour && setColour && colours) && (
-            <SelectInput
-              label="Colour"
-              options={colours}
-              value={colour}
-              onChange={setColour}
-              placeholder="Select a colour"
-            />
+            <div className="flex justify-center">
+              <div className="w-50">
+                <SelectInput
+                  label="Colour"
+                  options={colours}
+                  value={colour}
+                  onChange={setColour}
+                  placeholder="Select a colour"
+                />
+              </div>
+            </div>
           )}
         </div>
       ) : (
