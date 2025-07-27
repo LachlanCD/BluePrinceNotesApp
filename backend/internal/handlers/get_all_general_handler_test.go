@@ -7,14 +7,18 @@ import (
 )
 
 func TestGetAllGeneral(t *testing.T) {
-	initTestingDB()
 	expectedStatus := http.StatusOK
 	expectedReturn := "[{\"Id\":1,\"Name\":\"gen1\",\"Notes\":\"\"},{\"Id\":2,\"Name\":\"gen2\",\"Notes\":\"\"}]\n"
 
-	req := httptest.NewRequest(http.MethodGet, "/general", nil)
+	initTestingDB()
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/api/general/{workspaceID}", GetAllGeneral)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/general/test", nil)
 	w := httptest.NewRecorder()
 
-	GetAllGeneral(w, req)
+	mux.ServeHTTP(w, req)
 
 	res := w.Result()
 	checkStatus(expectedStatus, res.StatusCode, t)

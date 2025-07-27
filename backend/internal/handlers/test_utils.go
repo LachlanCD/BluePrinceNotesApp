@@ -30,21 +30,19 @@ func initTestingDB() {
 }
 
 func seedDB() {
+	workspace_id := "test"
 	rooms := []models.Room{
 		{
-			Id:     1,
 			Name:   "room1",
 			Colour: "col1",
 			Notes:  "note1",
 		},
 		{
-			Id:     2,
 			Name:   "room2",
 			Colour: "col2",
 			Notes:  "note2",
 		},
 		{
-			Id:     3,
 			Name:   "room3",
 			Colour: "col3",
 			Notes:  "note3",
@@ -53,24 +51,22 @@ func seedDB() {
 
 	generals := []models.General{
 		{
-			Id:    1,
 			Name:  "gen1",
 			Notes: "note1",
 		},
 		{
-			Id:    2,
 			Name:  "gen2",
 			Notes: "note2",
 		},
 	}
 
 	for _, i := range rooms {
-		query := "INSERT INTO rooms (id, name, colour, notes) VALUES (?,?,?,?)"
-		db.Exec(query, i.Id, i.Name, i.Colour, i.Notes)
+		query := "INSERT INTO rooms (workspace_id, name, colour, notes) VALUES (?,?,?,?)"
+		db.Exec(query, workspace_id, i.Name, i.Colour, i.Notes)
 	}
 	for _, i := range generals {
-		query := "INSERT INTO general (id, name, notes) VALUES (?,?,?)"
-		db.Exec(query, i.Id, i.Name, i.Notes)
+		query := "INSERT INTO general (workspace_id, name, notes) VALUES (?,?,?)"
+		db.Exec(query, workspace_id, i.Name, i.Notes)
 	}
 
 }

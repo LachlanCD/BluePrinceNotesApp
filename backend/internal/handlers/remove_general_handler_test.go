@@ -13,9 +13,9 @@ func TestRemoveGeneral(t *testing.T) {
 	expectedStatus := http.StatusNoContent
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}/remove", RemoveGeneralById)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}/remove", RemoveGeneralById)
 
-	removeURL := "/general/" + "1" + "/remove"
+	removeURL := "/api/general/" + "test/" + "1" + "/remove"
 	req := httptest.NewRequest(http.MethodGet, removeURL, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -37,9 +37,9 @@ func TestRemoveGeneralInvalidId(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}/remove", RemoveRoomById)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}/remove", RemoveRoomById)
 
-	removeURL := "/general/" + "t" + "/remove"
+	removeURL := "/api/general/" + "test/" + "t" + "/remove"
 	req := httptest.NewRequest(http.MethodGet, removeURL, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

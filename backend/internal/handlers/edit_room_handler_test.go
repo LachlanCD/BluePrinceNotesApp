@@ -15,13 +15,13 @@ func TestEditRoom(t *testing.T) {
 	expectedStatus := http.StatusOK
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/{id}/edit", EditRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/{id}/edit", EditRoom)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 	form.Add("colour", "Blue")
 
-	req := httptest.NewRequest(http.MethodPost, "/room/1/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/room/test/1/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -43,13 +43,13 @@ func TestEditRoomInvalidId(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/{id}/edit", EditRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/{id}/edit", EditRoom)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 	form.Add("colour", "Blue")
 
-	req := httptest.NewRequest(http.MethodPost, "/room/t/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/room/test/t/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -71,13 +71,13 @@ func TestEditRoomNotExist(t *testing.T) {
 	expectedStatus := http.StatusInternalServerError
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/{id}/edit", EditRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/{id}/edit", EditRoom)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 	form.Add("colour", "Blue")
 
-	req := httptest.NewRequest(http.MethodPost, "/room/5/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/room/test/5/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

@@ -13,9 +13,9 @@ func TestRemoveRoom(t *testing.T) {
 	expectedStatus := http.StatusNoContent
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/{id}/remove", RemoveRoomById)
+	mux.HandleFunc("/api/rooms/{workspaceID}/{id}/remove", RemoveRoomById)
 
-	removeURL := "/room/" + "1" + "/remove"
+	removeURL := "/api/rooms/" + "test/" + "1" + "/remove"
 	req := httptest.NewRequest(http.MethodGet, removeURL, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -37,9 +37,9 @@ func TestRemoveRoomInvalidId(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/{id}/remove", RemoveRoomById)
+	mux.HandleFunc("/api/rooms/{workspaceID}/{id}/remove", RemoveRoomById)
 
-	removeURL := "/room/" + "t" + "/remove"
+	removeURL := "/api/rooms/" + "test/" + "t" + "/remove"
 	req := httptest.NewRequest(http.MethodGet, removeURL, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

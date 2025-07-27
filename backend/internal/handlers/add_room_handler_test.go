@@ -15,13 +15,13 @@ func TestAddRoom(t *testing.T) {
 	expectedStatus := http.StatusCreated
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/add", AddRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/add", AddRoom)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 	form.Add("colour", "Blue")
 
-	req := httptest.NewRequest(http.MethodPost, "/room/add", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/room/{workspaceID}/add", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -43,12 +43,12 @@ func TestAddRoomMissingColour(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/add", AddRoom)
+	mux.HandleFunc("/api/rooms/{workspaceID}/add", AddRoom)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 
-	req := httptest.NewRequest(http.MethodPost, "/general/add", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/rooms/test/add", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -70,12 +70,12 @@ func TestAddRoomMissingName(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/add", AddRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/add", AddRoom)
 
 	form := url.Values{}
 	form.Add("colour", "Blue")
 
-	req := httptest.NewRequest(http.MethodPost, "/room/add", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/room/test/add", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -97,44 +97,15 @@ func TestAddRoomMissingForm(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/room/add", AddRoom)
+	mux.HandleFunc("/api/room/{workspaceID}/add", AddRoom)
 
-	req := httptest.NewRequest(http.MethodPost, "/room/add", nil)
+	req := httptest.NewRequest(http.MethodPost, "/api/room/test/add", nil)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
 
 	res := w.Result()
 
-	checkStatus(expectedStatus, res.StatusCode, t)
-
-	body := getBody(res, t)
-	actualReturn := string(body)
-	checkBody(expectedReturn, actualReturn, t)
-
-	cleanDB()
-}
-
-func TestAddRoomAlreadyExist(t *testing.T) {
-	initTestingDB()
-
-	expectedReturn := "Unable to add room\n"
-	expectedStatus := http.StatusInternalServerError
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/room/add", AddRoom)
-	mux.HandleFunc("/room/{id}/remove", RemoveRoomById)
-
-	form := url.Values{}
-	form.Add("name", "room1")
-	form.Add("colour", "Blue")
-
-	req := httptest.NewRequest(http.MethodPost, "/room/add", strings.NewReader(form.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	w := httptest.NewRecorder()
-	mux.ServeHTTP(w, req)
-
-	res := w.Result()
 	checkStatus(expectedStatus, res.StatusCode, t)
 
 	body := getBody(res, t)

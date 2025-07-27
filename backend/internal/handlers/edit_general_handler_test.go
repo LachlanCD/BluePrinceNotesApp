@@ -15,12 +15,12 @@ func TestEditGeneral(t *testing.T) {
 	expectedStatus := http.StatusOK
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}/edit", EditGeneral)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}/edit", EditGeneral)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 
-	req := httptest.NewRequest(http.MethodPost, "/general/1/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/general/test/1/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -42,12 +42,12 @@ func TestEditGeneralInvalidId(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}/edit", EditGeneral)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}/edit", EditGeneral)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 
-	req := httptest.NewRequest(http.MethodPost, "/general/t/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/general/test/t/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
@@ -69,12 +69,12 @@ func TestEditGeneralNotExist(t *testing.T) {
 	expectedStatus := http.StatusInternalServerError
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}/edit", EditGeneral)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}/edit", EditGeneral)
 
 	form := url.Values{}
 	form.Add("name", "Test")
 
-	req := httptest.NewRequest(http.MethodPost, "/general/5/edit", strings.NewReader(form.Encode()))
+	req := httptest.NewRequest(http.MethodPost, "/api/general/test/5/edit", strings.NewReader(form.Encode()))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

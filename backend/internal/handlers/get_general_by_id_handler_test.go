@@ -13,9 +13,9 @@ func TestGetGeneralByIdBadRequest(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}", GetGeneralNoteById)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}", GetGeneralNoteById)
 
-	req := httptest.NewRequest(http.MethodGet, "/general/j", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/general/test/j", nil)
 	w := httptest.NewRecorder()
 
 	mux.ServeHTTP(w, req)
@@ -37,9 +37,9 @@ func TestGetGeneralByIdNotExist(t *testing.T) {
 	expectedStatus := http.StatusInternalServerError
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}", GetGeneralNoteById)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}", GetGeneralNoteById)
 
-	req := httptest.NewRequest(http.MethodGet, "/general/123", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/general/test/123", nil)
 	w := httptest.NewRecorder()
 
 	mux.ServeHTTP(w, req)
@@ -61,9 +61,9 @@ func TestGetGeneralById(t *testing.T) {
 	expectedStatus := http.StatusOK
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/general/{id}", GetGeneralNoteById)
+	mux.HandleFunc("/api/general/{workspaceID}/{id}", GetGeneralNoteById)
 
-	url := "/general/1"
+	url := "/api/general/test/1"
 	req := httptest.NewRequest(http.MethodGet, url, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)

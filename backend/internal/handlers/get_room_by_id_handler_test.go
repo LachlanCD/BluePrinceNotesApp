@@ -13,9 +13,9 @@ func TestGetRoomByIdBadRequest(t *testing.T) {
 	expectedStatus := http.StatusBadRequest
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/rooms/{id}", GetRoomById)
+	mux.HandleFunc("/api/rooms/{workspaceID}/{id}", GetRoomById)
 
-	req := httptest.NewRequest(http.MethodGet, "/rooms/t", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/rooms/test/t", nil)
 	w := httptest.NewRecorder()
 
 	mux.ServeHTTP(w, req)
@@ -37,9 +37,9 @@ func TestGetRoomByIdNotExist(t *testing.T) {
 	expectedStatus := http.StatusInternalServerError
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/rooms/{id}", GetRoomById)
+	mux.HandleFunc("/api/rooms/{workspaceID}/{id}", GetRoomById)
 
-	req := httptest.NewRequest(http.MethodGet, "/rooms/123", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/rooms/test/123", nil)
 	w := httptest.NewRecorder()
 
 	mux.ServeHTTP(w, req)
@@ -61,9 +61,9 @@ func TestGetRoomById(t *testing.T) {
 	expectedStatus := http.StatusOK
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/rooms/{id}", GetRoomById)
+	mux.HandleFunc("/api/rooms/{workspaceID}/{id}", GetRoomById)
 
-	url := "/rooms/1"
+	url := "/api/rooms/test/1"
 	req := httptest.NewRequest(http.MethodGet, url, nil)
 	w := httptest.NewRecorder()
 	mux.ServeHTTP(w, req)
