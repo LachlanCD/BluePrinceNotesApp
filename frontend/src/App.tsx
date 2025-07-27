@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 import RoomNotePage from './pages/RoomNote'
 import GeneralNotePage from './pages/GeneralNote'
 import PageLayout from './pages/PageLayout'
+import NotFound from './pages/NotFoundPage'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path='/:workspaceID/add-new' element={<CreationForm />} />
           <Route path='/:workspaceID/rooms/:id' element={<RoomNotePage />} />
           <Route path='/:workspaceID/generals/:id' element={<GeneralNotePage />} />
+          <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
     </>
