@@ -143,7 +143,7 @@ func addGeneral(workspaceID string, general models.General) (int, error) {
 }
 
 func updateRoom(workspaceID string, room models.Room) error {
-	query := "UPDATE rooms SET name=@p1, colour=@p2 WHERE id=@p3 AND workspace_id=@p3"
+	query := "UPDATE rooms SET name=@p1, colour=@p2 WHERE id=@p3 AND workspace_id=@p4"
 	_, err := db.Exec(query, room.Name, room.Colour, room.Id, workspaceID)
 	return err
 }
