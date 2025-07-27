@@ -6,8 +6,7 @@ export async function GETAllRooms(workspaceID: string) {
   try {
     const route = `/api/rooms/${workspaceID}`
     const url = import.meta.env.VITE_BASE_URL + route
-    const location = import.meta.env.VITE_ALL_ROOMS_LOCATION
-    return FetchAndCache(url, location)
+    return FetchAndCache(url)
   } catch (err) {
     return err
   }
