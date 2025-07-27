@@ -9,9 +9,8 @@ export async function FetchData(url: string) {
   return data
 }
 
-export async function FetchAndCache(url: string, location: string) {
+export async function FetchAndCache(url: string) {
   const data = FetchData(url)
-  localStorage.setItem(location, JSON.stringify(data));
   return data;
 }
 

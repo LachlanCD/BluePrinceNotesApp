@@ -5,8 +5,7 @@ export async function GETAllGenerals(workspaceID: string) {
   try {
     const route = `/api/general/${workspaceID}`
     const url = import.meta.env.VITE_BASE_URL + route
-    const location = import.meta.env.VITE_ALL_GENERALS_LOCATION
-    return FetchAndCache(url, location)
+    return FetchAndCache(url)
   } catch (err) {
     return err
   }
