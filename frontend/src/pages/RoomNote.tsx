@@ -8,7 +8,7 @@ import NoteTitle from "../components/NoteTitle";
 import { useWorkspaceIDRedirect } from "../data/Utils";
 
 export default function RoomNotePage() {
-  const workspaceID = useWorkspaceIDRedirect("/")
+  const workspaceID = useWorkspaceIDRedirect("/rooms")
   const navigate = useNavigate()
   const { id } = useParams()
   const [room, setRoom] = useState<RoomNote | null>(null);

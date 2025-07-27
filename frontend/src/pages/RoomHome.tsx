@@ -5,7 +5,7 @@ import ColouredSection from "../components/ColouredSection";
 import { useWorkspaceIDRedirect } from "../data/Utils";
 
 export default function RoomHomePage() {
-  const workspaceID = useWorkspaceIDRedirect("/")
+  const workspaceID = useWorkspaceIDRedirect("/rooms")
   const [rooms, setRooms] = useState<RoomCard[] | null>(null);
   const [error, setError] = useState<String | null>(null);
 
@@ -20,7 +20,6 @@ export default function RoomHomePage() {
       } catch (err) {
         console.error(err)
         setError("Failed to retrieve rooms.");
-
       }
     }
     getRooms()
