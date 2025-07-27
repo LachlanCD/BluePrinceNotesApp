@@ -4,7 +4,7 @@ This is a full-stack web application with:
 
 - **Backend**: Go (Golang)
 - **Frontend**: React with Tailwind CSS
-- **Database**: SQL (e.g., PostgreSQL or SQLite)
+- **Database**: SQLite
 - **Containerization**: Docker
 
 ---
