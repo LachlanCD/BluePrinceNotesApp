@@ -17,7 +17,7 @@ export default function SelectInput({
 }: SelectProps) {
   return (
     <div>
-      <label className="block mb-1 font-medium">{label}</label>
+      <label className="block mt-4 font-medium">{label}</label>
       <div className="mt-2 grid grid-cols-1">
         <select
           value={value}
