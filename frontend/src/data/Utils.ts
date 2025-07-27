@@ -89,7 +89,7 @@ async function getWorkspaceIDFromLocal(location: string) {
 }
 
 async function getNewWorkspaceID(location: string) {
-  const route = `/api/create-workspace`
+  const route = `/create-workspace`
   const url = import.meta.env.VITE_BASE_URL + route
   const res = await fetch(url, { method: "POST" });
   const newID = await res.text();

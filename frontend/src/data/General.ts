@@ -3,7 +3,7 @@ import { AddNew, DeleteItem, FetchAndCache, FetchData } from "./Utils";
 
 export async function GETAllGenerals(workspaceID: string) {
   try {
-    const route = `/api/general/${workspaceID}`
+    const route = `/general/${workspaceID}`
     const url = import.meta.env.VITE_BASE_URL + route
     return FetchAndCache(url)
   } catch (err) {
@@ -13,7 +13,7 @@ export async function GETAllGenerals(workspaceID: string) {
 
 export async function GETGeneralDetails(workspaceID: string, id: string | undefined) {
   try {
-    const route = `/api/general/${workspaceID}/${id}`
+    const route = `/general/${workspaceID}/${id}`
     const url = import.meta.env.VITE_BASE_URL + route
     return FetchData(url)
   } catch (err) {
@@ -26,7 +26,7 @@ export async function ADDNewGeneral(workspaceID: string, newGeneral: NewGeneral)
     const formData = new URLSearchParams();
     formData.append('name', newGeneral.Name);
 
-    const route = `/api/general/${workspaceID}/add`
+    const route = `/general/${workspaceID}/add`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -57,7 +57,7 @@ export async function UpdateGeneral(workspaceID: string, newGeneral: GeneralCard
     const formData = new URLSearchParams();
     formData.append('name', newGeneral.Name);
 
-    const route = `/api/general/${workspaceID}/${newGeneral.Id}/update`
+    const route = `/general/${workspaceID}/${newGeneral.Id}/update`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -70,7 +70,7 @@ export async function UpdateGeneralNote({ id, workspaceID, note }: UpdateNotePro
     const formData = new URLSearchParams();
     formData.append('notes', note);
 
-    const route = `/api/general/${workspaceID}/${id}/update/note`
+    const route = `/general/${workspaceID}/${id}/update/note`
     const url = import.meta.env.VITE_BASE_URL + route
     return AddNew(url, formData)
   } catch (err) {
@@ -80,7 +80,7 @@ export async function UpdateGeneralNote({ id, workspaceID, note }: UpdateNotePro
 
 export async function DeleteGeneral(workspaceID: string, id: string | undefined) {
   try {
-    const route = `/api/general/${workspaceID}/${id}/remove`
+    const route = `/general/${workspaceID}/${id}/remove`
     const url = import.meta.env.VITE_BASE_URL + route
     return DeleteItem(url)
   } catch (err) {
