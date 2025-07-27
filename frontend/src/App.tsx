@@ -14,14 +14,14 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<RoomHomePage />} />
         <Route path='/' element={<HomePage />} />
         <Route path='/:workspaceID' element={<PageLayout />} >
-          <Route path='/:workspaceID/rooms' element={<RoomHomePage />} />
-          <Route path='/:workspaceID/generals' element={<GeneralHomePage />} />
-          <Route path='/:workspaceID/add-new' element={<CreationForm />} />
-          <Route path='/:workspaceID/rooms/:id' element={<RoomNotePage />} />
-          <Route path='/:workspaceID/generals/:id' element={<GeneralNotePage />} />
+          <Route index element={<HomePage />} />
+          <Route path='rooms' element={<RoomHomePage />} />
+          <Route path='generals' element={<GeneralHomePage />} />
+          <Route path='add-new' element={<CreationForm />} />
+          <Route path='rooms/:id' element={<RoomNotePage />} />
+          <Route path='generals/:id' element={<GeneralNotePage />} />
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
