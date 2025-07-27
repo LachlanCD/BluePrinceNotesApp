@@ -55,30 +55,44 @@ export async function HandleNoteUpdate({ id, workspaceID, note, updateNote }: Ha
 }
 
 export function useWorkspaceIDRedirect(currentUrl: string) {
+  const location = import.meta.env.VITE_WORKSPACE_ID;
   const navigate = useNavigate();
   const { workspaceID } = useParams<{ workspaceID?: string }>();
   const [currentWorkspaceID, setCurrentWorkspaceID] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function getID() {
-      if (!workspaceID) {
-        try {
-          const route = `/api/create-workspace`
-          const url = import.meta.env.VITE_BASE_URL + route
-          const res = await fetch(url, { method: "POST" });
-          const newID = await res.text();
-          navigate(`${currentUrl}${newID}`, { replace: true });
 
-          setCurrentWorkspaceID(newID)
-        } catch (err) {
-          console.error(err)
-        }
-      } else {
-        setCurrentWorkspaceID(workspaceID);
+  useEffect(() => {
+    if (workspaceID) {
+      setCurrentWorkspaceID(workspaceID);
+      return;
+    }
+    async function getID() {
+      try {
+        const id = await getWorkspaceIDFromLocal(location)
+        navigate(`/${id}${currentUrl}`, { replace: true });
+        setCurrentWorkspaceID(id)
+      } catch (err) {
+        console.error(err)
       }
     }
-    getID()
+
+    getID();
   }, [workspaceID, navigate]);
 
   return currentWorkspaceID;
+}
+
+async function getWorkspaceIDFromLocal(location: string) {
+  const id = localStorage.getItem(location)
+  if (id) return id;
+  return getNewWorkspaceID(location)
+}
+
+async function getNewWorkspaceID(location: string) {
+  const route = `/api/create-workspace`
+  const url = import.meta.env.VITE_BASE_URL + route
+  const res = await fetch(url, { method: "POST" });
+  const newID = await res.text();
+  localStorage.setItem(location, newID);
+  return newID
 }
